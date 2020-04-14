@@ -1,0 +1,10 @@
+.nav-treeview {
+    margin-left: 20px;
+}
+.selected {
+    background-color: #9C27B0;
+    color: #ffffff
+}   
+.nav-link {
+    text-decoration: none !important
+}
