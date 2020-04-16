@@ -56,7 +56,7 @@ class AddCustomer extends Component {
     editCustomer = (e) => {
         e.preventDefault();
         let token = "Token " + localStorage.userData;
-        Axios.put(`http://127.0.0.1:8000/api/accounts/auth/customer/12/update/`, {
+        Axios.put(`http://149.28.137.86:8000/api/accounts/auth/customer/12/update/`, {
             headers: { 'Authorization': token },
             body: {
 

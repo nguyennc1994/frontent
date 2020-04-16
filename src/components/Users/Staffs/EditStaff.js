@@ -36,7 +36,7 @@ class EditStaff extends Component {
     componentDidMount(){
         const customerId = this.props.match.params.id;   
         console.log(customerId)
-        Axios.get(`http://127.0.0.1:8000/api/accounts/staff/`+customerId+"/", {
+        Axios.get(`http://149.28.137.86:8000/api/accounts/staff/`+customerId+"/", {
             headers: { 'Authorization': "Token "+localStorage.userData }
         })
             .then(json => {

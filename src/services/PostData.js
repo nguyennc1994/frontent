@@ -3,7 +3,7 @@
 export function PostData(type, userData) {
     // let BaseURL = 'http://149.28.137.86:8000/api/accounts/auth/';
     // let BaseURL = 'https://api.thewallscript.com/restful/';
-    let BaseURL = 'http://127.0.0.1:8000/api/accounts/auth/';
+    let BaseURL = 'http://149.28.137.86:8000/api/accounts/auth/';
     return new Promise((resolve, reject) =>{
         console.log(userData)
          

@@ -30,7 +30,7 @@ class AddCustomer extends Component {
         e.preventDefault();
         console.log(this.state)
 
-        PostData('http://127.0.0.1:8000/api/meters/',
+        PostData('http://149.28.137.86:8000/api/meters/',
             {
                 "pid_number": this.state.pid_number,
                 is_active: this.state.is_check,

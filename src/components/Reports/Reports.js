@@ -26,7 +26,7 @@ class Reports extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://127.0.0.1:8000/api/reports/`, {
+        Axios.get(`http://149.28.137.86:8000/api/reports/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {

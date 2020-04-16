@@ -56,7 +56,7 @@ class Bills extends Component {
 
         let token = "Token "+localStorage.userData;
         let {data} = this.state;
-        Axios.delete(`http://127.0.0.1:8000/api/payments/bills/`+id+`/`,{
+        Axios.delete(`http://149.28.137.86:8000/api/payments/bills/`+id+`/`,{
             headers : {'Authorization' : token}
         })
         .then(json => {

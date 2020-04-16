@@ -39,25 +39,25 @@ class AddCustomer extends Component {
             console.log(id)
         }
     }
-    addCustomer = (e) => {
-        e.preventDefault();
-        console.log(this.state)
+    // addCustomer = (e) => {
+    //     e.preventDefault();
+    //     console.log(this.state)
 
-        PostData('',
-            {
-                "username": this.state.username,
-                "password": this.state.password,
-                "password2": this.state.password2,
-                "full_name": this.state.full_name,
-                "birthday": this.state.birthday,
-                is_active: this.state.is_check,
-            }).then((result) => {
-                console.log(result)
-                let responseJson = result;
-                console.log(responseJson)
-            });
+    //     PostData('',
+    //         {
+    //             "username": this.state.username,
+    //             "password": this.state.password,
+    //             "password2": this.state.password2,
+    //             "full_name": this.state.full_name,
+    //             "birthday": this.state.birthday,
+    //             is_active: this.state.is_check,
+    //         }).then((result) => {
+    //             console.log(result)
+    //             let responseJson = result;
+    //             console.log(responseJson)
+    //         });
 
-    }
+    // }
     onSave = (e) => {
         e.preventDefault();
         console.log(this.state)
