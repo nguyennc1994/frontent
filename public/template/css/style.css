@@ -1,0 +1,14 @@
+.btn {
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 12px
+}
+.right {
+    float: right
+}
+.left {
+    float: left
+}
+.search-field {
+    border: solid grey 1px
+}

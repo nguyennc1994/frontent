@@ -6,14 +6,14 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 // import './Users/Customers/Customers.css';
 import { NavLink } from 'react-router-dom'
+import Search from '../Search/Search';
 class Meters extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
             is_active: false,
-
             data: [],
+            keyword:""
         }
         this.getData = this.getData.bind(this)
         this.delete = this.deleteCustomer.bind(this)
@@ -22,25 +22,25 @@ class Meters extends Component {
 
     getData() {
         let token = "Token " + localStorage.userData;
-        console.log(token);
         this.setState({
 
             data: [],
+            loading: true
         })
-        Axios.get(`http://127.0.0.1:8000/api/meters/`, {
+        Axios.get(`http://149.28.137.86:8000//api/meters/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
-
                 this.setState({
                     data: json.data,
+                    loading : false
                 })
             })
-
             .catch(e => {
-                // console.error(e)
+                console.error(e)
                 this.setState({
                     data: [],
+                    loading : false
                 })
             })
         console.log(this.state.data)
@@ -56,7 +56,7 @@ class Meters extends Component {
 
             let token = "Token " + localStorage.userData;
             let { data } = this.state;
-            Axios.delete(`http://127.0.0.1:8000/api/meters/` + id + `/`, {
+            Axios.delete(`http://149.28.137.86:8000//api/meters/` + id + `/`, {
                 headers: { 'Authorization': token }
             })
                 .then(json => {
@@ -71,19 +71,28 @@ class Meters extends Component {
         }
     }
 
-    // findIndex = (data, id) => {
-    //         var result = -1;
-    //         products.forEach
-    // }
+    onSearch = (keyword) => {
+        console.log(keyword)
+        this.setState({
+            keyword :keyword
+        })
+    }
     componentDidMount() {
-        // console.log(this.state)
-        this.getData()
+
+        this.getData();
+        console.log(this.state.data)
     }
 
     render() {
-        // const { users, page, totalPages } = this.state;
-        // const startIndex = page * TOTAL_PER_PAGE;
-        const theData = this.state.data.map((d) => {
+        var {data, keyword} = this.state
+       
+        if(keyword){
+            data = data.filter((data)=>{
+                return (data.pid_number.toLowerCase().indexOf(keyword)  !== -1 );
+            })
+        }
+ 
+        const theData = data.map((d) => {
 
             return (
 
@@ -108,7 +117,7 @@ class Meters extends Component {
                     <div className="content">
 
                         <NavLink to="/meter/add" className="btn btn-info">Thêm</NavLink>
-
+                        <Search onSearch={this.onSearch}/>
                         <ReactBootStrap.Table striped bordered hover>
                             <thead>
                                 <tr>

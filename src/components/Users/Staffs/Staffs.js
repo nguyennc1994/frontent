@@ -5,31 +5,35 @@ import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import { NavLink } from 'react-router-dom'
-// const TOTAL_PER_PAGE = 10;
+import Search from '../../Search/Search';
+import Pagination from '../../Pagination/Pagination';
+
 
 class Staffs extends Component {
     constructor(props) {
         super(props)
         this.state = {
             data: [],
+            keyword: "",
+            sorted : true
         }
         this.getData = this.getData.bind(this)
         this.btnClick = this.btnClick.bind(this)
+        this.compareBy = this.compareBy.bind(this);
+        this.sortBy = this.sortBy.bind(this);
     }
-
+    
     getData() {
-        console.log(localStorage.userData);
         let token = "Token " + localStorage.userData;
         this.setState({
 
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/accounts/staff/`, {
+        Axios.get(`http://149.28.137.86:8000//api/accounts/staff/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
-                console.log(json)
                 this.setState({
                     data: json.data,
                     loading: false,
@@ -42,7 +46,40 @@ class Staffs extends Component {
                     loading: false,
                 })
             })
+            console.log(this.state.data);
     }
+    compareBy(key) {
+        if(this.state.sorted){
+        return function (a, b) {
+          if (a[key] < b[key]) return -1;
+          if (a[key] > b[key]) return 1;
+          return 0;
+            }
+            this.setState({
+                sorted : false
+            })
+            console.log(this.state.sorted)
+        }
+        else{
+            return function (a, b) {
+                if (a[key] > b[key]) return -1;
+                if (a[key] < b[key]) return 1;
+                return 0;
+              }
+              this.setState({
+                sorted : true
+            })
+        }
+        }
+      
+    
+     
+      sortBy(key) {
+        let arrayCopy = this.state.data;
+        arrayCopy.sort(this.compareBy(key));
+        this.setState({data: arrayCopy});
+      }
+
     getIndex = (data) => {
         var index = data.length;
         console.log(index)
@@ -69,13 +106,23 @@ class Staffs extends Component {
         this.getData()
 
     }
-
+    onSearch = (keyword) => {
+        console.log(keyword)
+        this.setState({
+            keyword :keyword
+        })
+    }
     render() {
-        let userId = this.props.match.params.userId;
-        console.log(userId)
-        // const { users, page, totalPages } = this.state;
-        // const startIndex = page * TOTAL_PER_PAGE;
-        const theData = this.state.data.map((d) => {
+  
+        var {data, keyword} = this.state
+       
+        if(keyword){
+            data = data.filter((data)=>{
+                return (data.username.toLowerCase().indexOf(keyword)  !== -1 || data.full_name.toLowerCase().indexOf(keyword)  !== -1);
+            })
+        }
+ 
+        const theData = data.map((d) => {
             return (
 
                 <tr key={d.username}>
@@ -99,17 +146,18 @@ class Staffs extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
-                        <NavLink to="/users/staff/add" className="btn btn-info">Them</NavLink>
+                        <NavLink to="/users/staff/add" className="btn btn-info">Thêm</NavLink>
+                        <Search onSearch={this.onSearch}/>
                         <ReactBootStrap.Table striped bordered hover>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tên đăng nhập</th>
-                                    <th>Họ và Tên</th>
-                                    <th>Ngày sinh</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ngày thêm</th>
-                                    <th>Lần cuối đăng nhập</th>
+                                    <th onClick={() => this.sortBy('id')}>ID</th>
+                                    <th onClick={() => this.sortBy('username')}>Tên đăng nhập</th>
+                                    <th onClick={() => this.sortBy('full_name')}>Họ và Tên</th>
+                                    <th onClick={() => this.sortBy('birthday')}>Ngày sinh</th>
+                                    <th onClick={() => this.sortBy('status')}>Trạng thái</th>
+                                    <th onClick={() => this.sortBy('date_joined')}>Ngày thêm</th>
+                                    <th onClick={() => this.sortBy('last_login')}>Lần cuối đăng nhập</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -117,16 +165,12 @@ class Staffs extends Component {
                                 {theData}
                             </tbody>
                         </ReactBootStrap.Table>
+                 
                     </div>
                     <Footer></Footer>
 
                 </div>
             </div>
-
-
-
-
-
         );
     }
 }
