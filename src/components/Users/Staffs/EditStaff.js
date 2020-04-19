@@ -36,7 +36,7 @@ class EditStaff extends Component {
     componentDidMount(){
         const customerId = this.props.match.params.id;   
         console.log(customerId)
-        Axios.get(`http://149.28.137.86:8000//api/accounts/staff/`+customerId+"/", {
+        Axios.get(`http://149.28.137.86:8000/api/accounts/staff/`+customerId+"/", {
             headers: { 'Authorization': "Token "+localStorage.userData }
         })
             .then(json => {
@@ -64,7 +64,7 @@ class EditStaff extends Component {
     editStaff = (e) => {
         e.preventDefault();
         const customerId = this.props.match.params.id;   
-        PutData(`http://149.28.137.86:8000//api/accounts/staff/`+customerId+'/',
+        PutData(`http://149.28.137.86:8000/api/accounts/staff/`+customerId+'/',
             {
                 "username": this.state.username,
                 // "password": this.state.password,

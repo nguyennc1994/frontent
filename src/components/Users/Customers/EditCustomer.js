@@ -34,7 +34,7 @@ class AddCustomer extends Component {
     
         let customerId = this.props.match.params.id;   
         console.log(customerId)
-        // Axios.get(`http://149.28.137.86:8000//api/accounts/staff/`+ customerId, {
+        // Axios.get(`http://149.28.137.86:8000/api/accounts/staff/`+ customerId, {
         //     headers: { 'Authorization': "Token "+localStorage.userData }
         // })
         //     .then(json => {
@@ -56,7 +56,7 @@ class AddCustomer extends Component {
     editCustomer = (e) => {
         e.preventDefault();
         let token = "Token " + localStorage.userData;
-        Axios.put(`http://149.28.137.86:8000//api/accounts/auth/customer/12/update/`, {
+        Axios.put(`http://149.28.137.86:8000/api/accounts/auth/customer/12/update/`, {
             headers: { 'Authorization': token },
             body: {
 

@@ -38,7 +38,7 @@ class Meter extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000//api/accounts/customer/`, {
+        Axios.get(`http://149.28.137.86:8000/api/accounts/customer/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
@@ -62,7 +62,7 @@ class Meter extends Component {
         e.preventDefault();
         console.log(this.state)
 
-        PostData('http://149.28.137.86:8000//api/meters/',
+        PostData('http://149.28.137.86:8000/api/meters/',
             {
                 "pid_number": this.state.pid_number,
                 "customer" : this.state.customer,

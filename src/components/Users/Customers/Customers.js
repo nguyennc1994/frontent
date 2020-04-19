@@ -28,7 +28,7 @@ class Customers extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000//api/accounts/customer/`, {
+        Axios.get(`http://149.28.137.86:8000/api/accounts/customer/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
@@ -54,7 +54,7 @@ class Customers extends Component {
         // const { userId } = this.state
         console.log(localStorage.userData);
         let token = "Token " + localStorage.userData;
-        Axios.get(`http://149.28.137.86:8000//api/accounts/customer/`, {
+        Axios.get(`http://149.28.137.86:8000/api/accounts/customer/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {

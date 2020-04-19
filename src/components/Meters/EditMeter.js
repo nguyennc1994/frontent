@@ -34,7 +34,7 @@ class AddCustomer extends Component {
                 // 
                 let token = "Token "+localStorage.userData;
                 console.log(token);
-                Axios.put(`http://149.28.137.86:8000//api/meters/`,{
+                Axios.put(`http://149.28.137.86:8000/api/meters/`,{
                     headers : {'Authorization' : token,
                     'Content-Type': 'application/json',
                     Accept: 'application/json',},

@@ -37,7 +37,7 @@ class AddStaff extends Component {
         e.preventDefault();
         console.log(this.state)
 
-        PostData('http://149.28.137.86:8000//api/accounts/auth/staff/create/',
+        PostData('http://149.28.137.86:8000/api/accounts/auth/staff/create/',
             {
                 "username": this.state.username,
                 "password": this.state.password,

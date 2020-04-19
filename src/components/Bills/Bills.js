@@ -27,7 +27,7 @@ class Bills extends Component {
 
             data : [],
         })
-        Axios.get(`http://149.28.137.86:8000//api/payments/bills/`,{
+        Axios.get(`http://149.28.137.86:8000/api/payments/bills/`,{
             headers : {'Authorization' : token}
         })
         .then(json => {

@@ -27,7 +27,7 @@ class Meters extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000//api/meters/`, {
+        Axios.get(`http://149.28.137.86:8000/api/meters/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
@@ -56,7 +56,7 @@ class Meters extends Component {
 
             let token = "Token " + localStorage.userData;
             let { data } = this.state;
-            Axios.delete(`http://149.28.137.86:8000//api/meters/` + id + `/`, {
+            Axios.delete(`http://149.28.137.86:8000/api/meters/` + id + `/`, {
                 headers: { 'Authorization': token }
             })
                 .then(json => {

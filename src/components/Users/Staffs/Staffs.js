@@ -30,7 +30,7 @@ class Staffs extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000//api/accounts/staff/`, {
+        Axios.get(`http://149.28.137.86:8000/api/accounts/staff/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
