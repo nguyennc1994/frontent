@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as ReactBootStrap from 'react-bootstrap';
-import Axios from 'axios';
 import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
@@ -46,8 +45,8 @@ class AddStaff extends Component {
                 "birthday": this.state.birthday,
                 is_admin: this.state.is_check,
             }).then((result) => {
-                        history.push("/home");
-
+                      if(result.username===this.state.username) alert("Tạo tài khoản Staff thành công ")
+                    else alert("Tạo tài khoản Staff không thành công")
 
             });
 

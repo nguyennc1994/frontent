@@ -6,7 +6,7 @@ import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import { NavLink } from 'react-router-dom'
 import Search from '../../Search/Search';
-import Pagination from '../../Pagination/Pagination';
+// import Pagination from '../../Pagination/Pagination';
 
 
 class Staffs extends Component {
@@ -18,7 +18,7 @@ class Staffs extends Component {
             sorted : true
         }
         this.getData = this.getData.bind(this)
-        this.btnClick = this.btnClick.bind(this)
+        // this.btnClick = this.btnClick.bind(this)
         this.compareBy = this.compareBy.bind(this);
         this.sortBy = this.sortBy.bind(this);
     }
@@ -49,16 +49,16 @@ class Staffs extends Component {
             console.log(this.state.data);
     }
     compareBy(key) {
-        if(this.state.sorted){
+        if(this.state.sorted===true){
         return function (a, b) {
           if (a[key] < b[key]) return -1;
           if (a[key] > b[key]) return 1;
           return 0;
             }
-            this.setState({
-                sorted : false
-            })
-            console.log(this.state.sorted)
+            // this.setState({
+            //     sorted : false
+            // })
+            // console.log(this.state.sorted)
         }
         else{
             return function (a, b) {
@@ -66,9 +66,9 @@ class Staffs extends Component {
                 if (a[key] < b[key]) return 1;
                 return 0;
               }
-              this.setState({
-                sorted : true
-            })
+            //   this.setState({
+            //     sorted : true
+            // })
         }
         }
       
@@ -92,15 +92,15 @@ class Staffs extends Component {
         if (status) return (<span className="btn btn-info">Admin</span>)
         else return (<span className="btn btn-danger">Only staff</span>)
     }
-    btnClick(event) {
-        const userId = event.target.value
-        console.log(userId)
-        this.setState({
-            userId
-        })
+    // btnClick(event) {
+    //     const userId = event.target.value
+    //     console.log(userId)
+    //     this.setState({
+    //         userId
+    //     })
 
-        this.getData()
-    }
+    //     this.getData()
+    // }
 
     componentDidMount() {
         this.getData()
@@ -139,6 +139,8 @@ class Staffs extends Component {
                 </tr>
             )
         })
+
+        console.log(theData)
         return (
             <div className="wrapper ">
                 <Sidebar></Sidebar>

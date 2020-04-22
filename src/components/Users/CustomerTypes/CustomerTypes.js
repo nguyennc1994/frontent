@@ -16,6 +16,8 @@ class CustomerTypes extends Component {
         }
         this.getData = this.getData.bind(this)
         this.delete = this.deleteCustomerType.bind(this)
+        this.showPayType = this.showPayType.bind(this)
+        this.showCustomerType = this.showCustomerType.bind(this)
     }
 
     getData() {
@@ -44,9 +46,15 @@ class CustomerTypes extends Component {
                 })
             })
     }
-    showStatus = (status) => {
-        if (status) return (<span className="btn btn-info">Active</span>)
-        else return (<span className="btn btn-danger">Deactive</span>)
+    showCustomerType = (cus_type) => {
+        if (cus_type===1) return (<span > Hộ gia đình</span>)
+        else if (cus_type===2) return (<span>Doanh nghiệp</span>)
+        else return (<span>Chưa chọn kiểu</span>)
+    }
+    showPayType = (pay_type) => {
+        if (pay_type===1) return (<span >Trả trước</span>)
+        else if (pay_type===2) return (<span>Trả sau</span>)
+        else return (<span>Chưa chọn kiểu</span>)
     }
     deleteCustomerType() {
         // const { userId } = this.state
@@ -74,8 +82,9 @@ class CustomerTypes extends Component {
                 <tr key={d.id}>
                     <td>{d.id}</td>
                     <td>{d.name}</td>
-                    <td>{d.pay_type}</td>
-                    <td>{d.deadline_payment}</td>
+                    <td>{this.showCustomerType(d.cus_type)}</td>
+                    <td>{this.showPayType(d.pay_type)}</td>
+                    <td>Ngày {d.deadline_payment} hàng tháng </td>
                     <td> <NavLink className="btn btn-success" to={"/users/customertype/" + d.id + "/edit"}>Edit</NavLink>
                         <ReactBootStrap.Button className="btn" variant="danger" onClick={this.deleteCustomerType}>Delete</ReactBootStrap.Button>
                     </td>
@@ -90,13 +99,14 @@ class CustomerTypes extends Component {
                     <Header></Header>
                     <div className="content">
 
-                        <NavLink to="/users/customer/add" className="btn btn-info">Them</NavLink>
+                        <NavLink to="/users/customertype/add" className="btn btn-info">Thêm</NavLink>
 
                         <ReactBootStrap.Table striped bordered hover>
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên kiểu</th>
+                                    <th>Kiểu khách hàng</th>
                                     <th>Kiểu thanh toán</th>
                                     <th>Kỳ hạn thanh toán</th>
                                     <th>Hành động</th>

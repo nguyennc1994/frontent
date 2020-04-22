@@ -28,6 +28,7 @@ class Login extends Component {
                 if (responseJson.status === "1") {
                     sessionStorage.setItem('userData', JSON.stringify(responseJson));
                     localStorage.setItem('userData', responseJson.token);
+                    localStorage.setItem('perm',responseJson.perm)
                     this.setState({ redirectToReferrer: true });
                 }
                 else {

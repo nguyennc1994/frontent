@@ -55,7 +55,6 @@ class Bills extends Component {
         if(confirm("Bạn chắc chắn muốn xóa không?")) {
 
         let token = "Token "+localStorage.userData;
-        let {data} = this.state;
         Axios.delete(`http://149.28.137.86:8000//api/payments/bills/`+id+`/`,{
             headers : {'Authorization' : token}
         })
@@ -106,7 +105,7 @@ class Bills extends Component {
 			  	<Header></Header>
                 <div className="content">
                   
-                <NavLink to="/meter/add" className="btn btn-info">Thêm</NavLink>
+               
                  
                   <ReactBootStrap.Table striped bordered hover>
                    <thead>

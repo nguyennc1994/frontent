@@ -7,18 +7,19 @@ import { PostData } from '../../services/ApiCaller';
 import Axios from 'axios';
 // import './Customers.css';
 
-class Meter extends Component {
+class AddMeter extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data :[],
-            "pid_number": "",
-            is_check: false,
-            "customer":"",
-            keyword : ""
+            data_customer: [],
+            pid_number: "",
+            is_check: true,
+            customer: "",
+
         }
         this.addCustomer = this.addMeter.bind(this);
         this.onChange = this.onChange.bind(this)
+        this.onChangeCustomer = this.onChangeCustomer.bind(this)
     }
 
     onChange = (e) => {
@@ -28,30 +29,37 @@ class Meter extends Component {
         this.setState({
             [name]: value
         })
-        console.log(this.state.is_check)
+        console.log(this.state)
+    }
+    onChangeCustomer = (e) => {
+
+        this.setState({
+            customer: e.target.value
+        })
+        console.log(e.target.value)
     }
     getData() {
         let token = "Token " + localStorage.userData;
-        console.log(token);
         this.setState({
 
-            data: [],
+            data_customer: [],
             loading: true
         })
         Axios.get(`http://149.28.137.86:8000/api/accounts/customer/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
-                console.log(json.data)
                 this.setState({
-                    data: json.data,
+                    data_customer: json.data,
                     loading: false,
                 })
+                console.log(json.data)
             })
+            
             .catch(e => {
                 console.error(e)
                 this.setState({
-                    data: [],
+                    data_customer: [],
                     loading: false,
                 })
             })
@@ -64,15 +72,13 @@ class Meter extends Component {
 
         PostData('http://149.28.137.86:8000/api/meters/',
             {
-                "pid_number": this.state.pid_number,
-                "customer" : this.state.customer,
+                pid_number: this.state.pid_number,
+                customer: this.state.customer,
                 is_active: this.state.is_check,
             }).then((result) => {
                 console.log(result)
                 let responseJson = result;
                 console.log(responseJson)
-
-
             });
     }
     componentDidMount() {
@@ -81,19 +87,22 @@ class Meter extends Component {
         console.log(this.state.data)
     }
     render() {
-        var {data, customer} = this.state
+        var { data_customer, customer } = this.state
         // if(keyword){
         //     data = data.filter((data)=>{
         //         return (data.pid_number.toLowerCase().indexOf(keyword)  !== -1 );
         //     })
         // }
 
-        const theData = data.map((d) => {
-            <ReactBootStrap.Dropdown.Item>{d.username}</ReactBootStrap.Dropdown.Item>
-            // console.log(d.username)
+        const theData = data_customer.map((d) => {
+            return (
+                <option value={d.id} key={d.id}>    {d.id} --- {d.username} --- {d.full_name}   </option>
+            )
+
         })
-       
+
         return (
+
             <div className="wrapper ">
                 <Sidebar></Sidebar>
 
@@ -105,24 +114,18 @@ class Meter extends Component {
                                 <ReactBootStrap.Form.Label className="text">Mã công tơ</ReactBootStrap.Form.Label>
                                 <ReactBootStrap.Form.Control type="text" name="pid_number" onChange={this.onChange} placeholder="Mã công tơ" />
                             </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Dropdown>
-                                <ReactBootStrap.Form.Label className="text">Mã khách hàng</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Dropdown.Toggle variant="success" id="dropdown-basic">
-                                    Dropdown Button
-                                </ReactBootStrap.Dropdown.Toggle>
-
-                                <ReactBootStrap.Dropdown.Menu>
-                                    <ReactBootStrap.Form.Control type="text" name="customer" value={customer} onChange={this.onChange} placeholder="Mã khách hàng" />
+                            <ReactBootStrap.Form.Group controlId="exampleForm.ControlSelect1">
+                                <ReactBootStrap.Form.Label>Mã khách hàng</ReactBootStrap.Form.Label>
+                                <ReactBootStrap.Form.Control name="customer" as="select" value={customer} onChange={this.onChangeCustomer}>
+                                <option>Chọn mã khách hàng</option>
                                     {theData}
-                                    
-                                </ReactBootStrap.Dropdown.Menu>
-                                </ReactBootStrap.Dropdown>
-                            <ReactBootStrap.Form.Group id="formGridCheckbox">
-                            <ReactBootStrap.Form.Label className="text">Trạng thái</ReactBootStrap.Form.Label>
-                            <ReactBootStrap.InputGroup.Checkbox name="is_active" onChange={this.onChange}  />
-                            
+                                </ReactBootStrap.Form.Control>
                             </ReactBootStrap.Form.Group>
-                        
+                            <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                <ReactBootStrap.Form.Label className="text">Trạng thái</ReactBootStrap.Form.Label>
+                                <ReactBootStrap.InputGroup.Checkbox name="is_active"  />
+
+                            </ReactBootStrap.Form.Group>
                             <ReactBootStrap.Button variant="primary" type="submit" onClick={this.addMeter}>
                                 Thêm
                     </ReactBootStrap.Button>
@@ -138,4 +141,4 @@ class Meter extends Component {
 }
 
 
-export default Meter;     
+export default AddMeter;     

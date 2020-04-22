@@ -13,11 +13,12 @@ class Meters extends Component {
         this.state = {
             is_active: false,
             data: [],
-            keyword:""
+            keyword: ""
         }
         this.getData = this.getData.bind(this)
         this.delete = this.deleteCustomer.bind(this)
         this.showStatus = this.showStatus.bind(this)
+        this.sortBy = this.sortBy.bind(this);
     }
 
     getData() {
@@ -33,14 +34,14 @@ class Meters extends Component {
             .then(json => {
                 this.setState({
                     data: json.data,
-                    loading : false
+                    loading: false
                 })
             })
             .catch(e => {
                 console.error(e)
                 this.setState({
                     data: [],
-                    loading : false
+                    loading: false
                 })
             })
         console.log(this.state.data)
@@ -51,11 +52,10 @@ class Meters extends Component {
         else return (<span className="btn btn-danger">Deactive</span>)
     }
 
-    deleteCustomer(id) {
+    deleteCustomer=(id)=> {
         if (confirm("Bạn chắc chắn muốn xóa không?")) {
 
             let token = "Token " + localStorage.userData;
-            let { data } = this.state;
             Axios.delete(`http://149.28.137.86:8000/api/meters/` + id + `/`, {
                 headers: { 'Authorization': token }
             })
@@ -70,11 +70,41 @@ class Meters extends Component {
             console.log(this.state.data)
         }
     }
-
+    compareBy(key) {
+        // if(this.state.sorted===true){
+        return function (a, b) {
+          if (a[key] < b[key]) return -1;
+          if (a[key] > b[key]) return 1;
+          return 0;
+            }
+            // this.setState({
+            //     sorted : false
+            // })
+            // console.log(this.state.sorted)
+        }
+        // else{
+        //     return function (a, b) {
+        //         if (a[key] > b[key]) return -1;
+        //         if (a[key] < b[key]) return 1;
+        //         return 0;
+        //       }
+        //     //   this.setState({
+        //     //     sorted : true
+        //     // })
+        // // }
+        // }
+      
+    
+     
+      sortBy(key) {
+        let arrayCopy = this.state.data;
+        arrayCopy.sort(this.compareBy(key));
+        this.setState({data: arrayCopy});
+      }
     onSearch = (keyword) => {
         console.log(keyword)
         this.setState({
-            keyword :keyword
+            keyword: keyword
         })
     }
     componentDidMount() {
@@ -84,21 +114,21 @@ class Meters extends Component {
     }
 
     render() {
-        var {data, keyword} = this.state
-       
-        if(keyword){
-            data = data.filter((data)=>{
-                return (data.pid_number.toLowerCase().indexOf(keyword)  !== -1 );
+        var { data, keyword } = this.state
+
+        if (keyword) {
+            data = data.filter((data) => {
+                return (data.pid_number.toLowerCase().indexOf(keyword) !== -1);
             })
         }
- 
+
         const theData = data.map((d) => {
 
             return (
 
                 <tr key={d.id}>
                     <td>{d.id}</td>
-                    <td>{d.pid_number}</td>
+                    <td><NavLink to={"/meter/" + d.id + "/report"}> {d.pid_number}</NavLink></td>
                     <td>{d.date_added.slice(0, 10)}</td>
                     <td>{this.showStatus(d.is_active)}</td>
                     <td>{d.customer}</td>
@@ -117,15 +147,15 @@ class Meters extends Component {
                     <div className="content">
 
                         <NavLink to="/meter/add" className="btn btn-info">Thêm</NavLink>
-                        <Search onSearch={this.onSearch}/>
+                        <Search onSearch={this.onSearch} />
                         <ReactBootStrap.Table striped bordered hover>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Mã công tơ</th>
+                                    <th onClick={() => this.sortBy('id')}>ID</th>
+                                    <th onClick={() => this.sortBy('pid_number')}>Mã công tơ</th>
                                     <th>Ngày thêm</th>
                                     <th>Trạng thái</th>
-                                    <th>Khách hàng</th>
+                                    <th onClick={() => this.sortBy('customer')}>Khách hàng</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>

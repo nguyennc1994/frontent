@@ -1,29 +1,32 @@
 import React, { Component } from 'react';
 import * as ReactBootStrap from 'react-bootstrap';
-import Axios from 'axios';
 import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import './Customers.css';
 import { PostData } from '../../../services/ApiCaller';
+import Axios from 'axios';
 class AddCustomer extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            data_customertype:[],
             username: "",
             password: "",
-            password: "",
+            password2: "",
             full_name: "",
             birthday: "",
             is_check: false,
-            // customerprofile :{
-                address:"",
-                person_num:"",
-                customer_type:""
-            // }
+            address:"",
+            person_num:"",
+            customer_type:"",
+            // meter:""
+
         }
         this.addCustomer = this.addCustomer.bind(this);
         this.onChange = this.onChange.bind(this)
+        this.onChangeCustomerType = this.onChangeCustomerType.bind(this)
+        
     }
 
     onChange = (e) => {
@@ -32,31 +35,44 @@ class AddCustomer extends Component {
         var value = target.type === "checkbok" ? target.checked : target.value;
         this.setState({
             [name]: value
-            // username: "",
-            // password: "",
-            // password: "",
-            // full_name: "",
-            // birthday: "",
-            // is_check: false,
-            // customerprofile :{
-            //     address:"",
-            //     person_num:"",
-            //     customer_type:""}
-        })
+            
+         })
         console.log(this.state)
     }
+    
+    getData() {
+        let token = "Token " + localStorage.userData;
+        this.setState({
 
-    // componentDidMount(){
-    //     var {match} = this.props;
-    //     console.log(match)
-    //     if(match) {
-    //         var id = match.params.id;
-    //         console.log(id)
-    //     }
-    // }
+            data_customertype: [],
+            loading: true
+        })
+        Axios.get(`http://149.28.137.86:8000/api/customer/customertype/`, {
+            headers: { 'Authorization': token }
+        })
+            .then(json => {
+                this.setState({
+                    data_customertype: json.data,
+                    loading: false,
+                })
+            })
+            
+            .catch(e => {
+                console.error(e)
+                this.setState({
+                    data_customertype: [],
+                    loading: false,
+                })
+            })
+    }
+    
+    componentDidMount(){
+        this.getData()
+    }
+
     addCustomer = (e) => {
         e.preventDefault();
-        console.log(this.state)
+        // console.log(this.state)
 
         PostData('http://149.28.137.86:8000/api/accounts/auth/customer/create/',
             {
@@ -68,20 +84,40 @@ class AddCustomer extends Component {
                 is_active: this.state.is_check,
                 customerprofile :{
                     address:this.state.address,
-                    person_num:parseInt(this.state.person_num),
+                    person_num: this.state.person_num,
                     customer_type:this.state.customer_type
-                }
+                },
+                // meter: this.state.meter
             }).then((result) => {
-                console.log(result)
-                let responseJson = result;
-                console.log(responseJson)
+                // console.log(result)
+                
             });
 
     }
+    onChangeCustomerType = (e) => {
 
+        this.setState({
+            customer_type: e.target.value
+        })
+        console.log(e.target.value)
+    }
+    showCustomerType = (cus_type) => {
+        if (cus_type===1) return "Hộ gia đình"
+        else if (cus_type===2) return "Doanh nghiệp"
+        else return "Chưa chọn kiểu"
+    }
 
 
     render() {
+        var { data_customertype, customer_type } = this.state
+        const theData = data_customertype.map((d) => {
+            return (
+                <option value={d.id} key={d.id}>    {d.id} --- {this.showCustomerType(d.cus_type)}  </option>
+            )
+            
+
+        })
+        // console.log(theData)
         return (
             <div className="wrapper ">
                 <Sidebar></Sidebar>
@@ -89,6 +125,8 @@ class AddCustomer extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
+
+                        
                         <ReactBootStrap.Form onSubmit={this.onSave}>
                             <ReactBootStrap.Form.Group controlId="">
                                 <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
@@ -113,20 +151,27 @@ class AddCustomer extends Component {
                             
                             <ReactBootStrap.Form.Group controlId="">
                                 <ReactBootStrap.Form.Label className="text">Địa chỉ</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="address" onChange={this.onChange} placeholder="Địa chỉ" />
+                                <ReactBootStrap.Form.Control type="text" name="address" onChange={this.onChange} placeholder="Địa chỉ" />
                             </ReactBootStrap.Form.Group>
                             <ReactBootStrap.Form.Group controlId="">
                                 <ReactBootStrap.Form.Label className="text">Số lượng nhân khẩu</ReactBootStrap.Form.Label>
                                 <ReactBootStrap.Form.Control type="text" name="person_num" onChange={this.onChange} placeholder="Số lượng nhân khẩu" />
                             </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
+                            <ReactBootStrap.Form.Group controlId="exampleForm.ControlSelect1">
+                                <ReactBootStrap.Form.Label>Kiểu khách hàng</ReactBootStrap.Form.Label>
+                            <ReactBootStrap.Form.Control name="customer_type" as="select" value={customer_type} onChange={this.onChangeCustomerType}>
+                                <option>Chọn kiểu khách hàng</option>
+                                    {theData}
+                                </ReactBootStrap.Form.Control>
+                                </ReactBootStrap.Form.Group>
+                            {/* <ReactBootStrap.Form.Group controlId="">
                                 <ReactBootStrap.Form.Label className="text">Kiểu khách hàng</ReactBootStrap.Form.Label>
                                 <ReactBootStrap.Form.Control type="text" name="customer_type" onChange={this.onChange} placeholder="Kiểu khách hàng" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
+                            </ReactBootStrap.Form.Group> */}
+                            {/* <ReactBootStrap.Form.Group controlId="">
                                 <ReactBootStrap.Form.Label className="text">Mã công tơ</ReactBootStrap.Form.Label>
                                 <ReactBootStrap.Form.Control type="text" name="meter" onChange={this.onChange} placeholder="Mã công tơ" />
-                            </ReactBootStrap.Form.Group>
+                            </ReactBootStrap.Form.Group> */}
                             <ReactBootStrap.Form.Group id="formGridCheckbox">
                                 <ReactBootStrap.Form.Check type="checkbox" label="Check me out" />
                             </ReactBootStrap.Form.Group>

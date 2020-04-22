@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
 // import './Customers.css';
 // import { NavLink } from 'react-router-dom'
-class Reports extends Component {
+class ReportInMeter extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -23,12 +23,13 @@ class Reports extends Component {
     getData() {
         let token = "Token " + localStorage.userData;
         console.log(token);
+        const meterId = this.props.match.params.id;   
         this.setState({
 
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/reports/`, {
+        Axios.get(`http://149.28.137.86:8000/api/meter/`+meterId+`/reports`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
@@ -150,4 +151,4 @@ class Reports extends Component {
 }
 
 
-export default Reports;
+export default ReportInMeter;
