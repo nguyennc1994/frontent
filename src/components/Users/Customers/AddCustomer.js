@@ -155,20 +155,20 @@ class AddCustomer extends Component {
         console.log(checkBox.checked)
     }
 
-    componentWillMount() {	
-		if(localStorage.getItem("userData")){		
-		}	
-	   
-		else{
-		 this.setState({redirectToReferrer: true});
-		}	
-	   }
+    componentWillMount() {
+        if (localStorage.getItem("userData")) {
+        }
+
+        else {
+            this.setState({ redirectToReferrer: true });
+        }
+    }
 
     render() {
 
-		if (this.state.redirectToReferrer) {
-            return (<Redirect to={'/login'}/>)
-		  } 
+        if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'} />)
+        }
         var { data_customertype, customer_type, data_meter, meter } = this.state
         const theDataCustomerType = data_customertype.map((d) => {
             return (
@@ -188,64 +188,86 @@ class AddCustomer extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
+                        
+                        <div className="col-md-12">
+                                    <div className="card">
+                                        <div className="card-header card-header-info">
+                                            <h4 className="card-title">Thêm người dùng</h4>
+                                            <p className="card-category"></p>
+                                        </div>
+                                        <div className="card-body">
+                                        <ReactBootStrap.Row className=" pd-20 br-10">
+                            <ReactBootStrap.Col className="col-6">
 
-
-                        <ReactBootStrap.Form onSubmit={this.onSave}>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" name="username" onChange={this.onChange} placeholder="Tên đăng nhập" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Mật khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="password" onChange={this.onChange} placeholder="Mật khẩu" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Nhập lại mật khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="password2" onChange={this.onChange} placeholder="Mật khẩu" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Họ tên người dùng</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" name="full_name" onChange={this.onChange} placeholder="Nguyễn Văn A" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Ngày sinh</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="date" name="birthday" onChange={this.onChange} placeholder="DD-MM-YYYY" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Địa chỉ</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" name="address" onChange={this.onChange} placeholder="Địa chỉ" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Số lượng nhân khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" name="person_num" onChange={this.onChange} placeholder="Số lượng nhân khẩu" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="exampleForm.ControlSelect1">
-                                <ReactBootStrap.Form.Label>Kiểu khách hàng</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control name="customer_type" as="select" value={customer_type} onChange={this.onChangeCustomerType}>
-                                    <option>Chọn kiểu khách hàng</option>
-                                    {theDataCustomerType}
-                                </ReactBootStrap.Form.Control>
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="exampleForm.ControlSelect1">
-                                <ReactBootStrap.Form.Label>Kiểu khách hàng</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control name="customer_type" as="select" value={meter} onChange={this.onChangeMeter}>
-                                    <option>Mã công tơ</option>
-                                    {theDataMeter}
-                                </ReactBootStrap.Form.Control>
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group id="formGridCheckbox">
-                                <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onClick={this.checkedCheckBox} />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Button variant="primary" type="submit" onClick={this.addCustomer}>
-                                Thêm
+                                <ReactBootStrap.Form>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="text" name="username" onChange={this.onChange} placeholder="Tên đăng nhập" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Mật khẩu</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="password" name="password" onChange={this.onChange} placeholder="Mật khẩu" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Nhập lại mật khẩu</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="password" name="password2" onChange={this.onChange} placeholder="Mật khẩu" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Họ tên người dùng</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="text" name="full_name" onChange={this.onChange} placeholder="Nguyễn Văn A" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Ngày sinh</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="date" name="birthday" onChange={this.onChange} placeholder="DD-MM-YYYY" />
+                                    </ReactBootStrap.Form.Group>
+                                </ReactBootStrap.Form>
+                            </ReactBootStrap.Col>
+                            <ReactBootStrap.Col className="col-6">
+                            <ReactBootStrap.Form>
+                                
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Địa chỉ</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="text" name="address" onChange={this.onChange} placeholder="Địa chỉ" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Số lượng nhân khẩu</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="text" name="person_num" onChange={this.onChange} placeholder="Số lượng nhân khẩu" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="exampleForm.ControlSelect1">
+                                        <ReactBootStrap.Form.Label className="text">Kiểu khách hàng</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control name="customer_type" as="select" value={customer_type} onChange={this.onChangeCustomerType}>
+                                            <option>Chọn kiểu khách hàng</option>
+                                            {theDataCustomerType}
+                                        </ReactBootStrap.Form.Control>
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="exampleForm.ControlSelect1">
+                                        <ReactBootStrap.Form.Label className="text">Kiểu khách hàng</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control name="customer_type" as="select" value={meter} onChange={this.onChangeMeter}>
+                                            <option>Mã công tơ</option>
+                                            {theDataMeter}
+                                        </ReactBootStrap.Form.Control>
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                        <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onClick={this.checkedCheckBox} />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Button className="right"variant="info" type="submit" onClick={this.addCustomer}>
+                            Thêm
                     </ReactBootStrap.Button>
-                        </ReactBootStrap.Form>
-
-                    </div>
-                    <Footer></Footer>
+                            </ReactBootStrap.Form>
+                            </ReactBootStrap.Col>
+                        </ReactBootStrap.Row>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                        
+                        {/* </ReactBootStrap.Form> */}
 
                 </div>
+                <Footer></Footer>
+
+            </div>
             </div>
         );
     }

@@ -11,90 +11,90 @@ class ReportInMeter extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: [],
+            dataReports: [],
             loading: false,
-            keyword:""
+            keyword: ""
         }
-        this.getData = this.getData.bind(this)
+        this.getDataReports = this.getDataReports.bind(this)
         this.compareBy = this.compareBy.bind(this);
         this.sortBy = this.sortBy.bind(this);
     }
 
-    getData() {
+    getDataReports() {
         let token = "Token " + localStorage.userData;
         console.log(token);
-        const meterId = this.props.match.params.id;   
+        const meterId = this.props.match.params.id;
         this.setState({
 
-            data: [],
+            dataReports: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/v1/meters/reports/meter/`+meterId+`/`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/meters/reports/meter/` + meterId + `/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
                 console.log(json.data)
                 this.setState({
-                    data: json.data,
+                    dataReports: json.data,
                     loading: false,
                 })
             })
             .catch(e => {
                 console.error(e)
                 this.setState({
-                    data: [],
+                    dataReports: [],
                     loading: false,
                 })
             })
     }
     compareBy(key) {
-        if(this.state.sorted===true){
-        return function (a, b) {
-          if (a[key] < b[key]) return -1;
-          if (a[key] > b[key]) return 1;
-          return 0;
+        if (this.state.sorted === true) {
+            return function (a, b) {
+                if (a[key] < b[key]) return -1;
+                if (a[key] > b[key]) return 1;
+                return 0;
             }
             // this.setState({
             //     sorted : false
             // })
             // console.log(this.state.sorted)
         }
-        else{
+        else {
             return function (a, b) {
                 if (a[key] > b[key]) return -1;
                 if (a[key] < b[key]) return 1;
                 return 0;
-              }
             }
         }
-      
-    
-     
-      sortBy(key) {
+    }
+
+
+
+    sortBy(key) {
         let arrayCopy = this.state.data;
         arrayCopy.sort(this.compareBy(key));
-        this.setState({data: arrayCopy});
-      }
+        this.setState({ data: arrayCopy });
+    }
 
     componentDidMount() {
-        this.getData()
+        this.getDataReports()
     }
     onSearch = (keyword) => {
         console.log(keyword)
         this.setState({
-            keyword :keyword
+            keyword: keyword
         })
     }
 
     render() {
-        var {data, keyword} = this.state
-       
+        var { dataReports, keyword } = this.state
+
         // if(keyword){
         //     data = data.filter((data)=>{
         //         return (data.id.toLowerCase().indexOf(keyword)  !== -1 || data.meter.toLowerCase().indexOf(keyword)  !== -1 || data.date_added.toLowerCase().indexOf(keyword)  !== -1);
         //     })
         // }
-        const theData = data.map((d) => {
+        const theDataReports = dataReports.map((d) => {
             return (
 
                 <tr key={d.id}>
@@ -105,7 +105,7 @@ class ReportInMeter extends Component {
                     <td>{d.use}</td>
                     <td>{d.credit}</td>
                     <td>{d.total}</td>
-                    <td>{d.signal_strength}</td>               
+                    <td>{d.signal_strength}</td>
                 </tr>
             )
         })
@@ -116,26 +116,37 @@ class ReportInMeter extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
-                    <Search onSearch={this.onSearch}/>
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-info">
+                                    <h4 className="card-title">Danh sách Report của công tơ</h4>
+                                    <p className="card-category"></p>
+                                </div>
+                                <div className="card-body">
+                                    <Search onSearch={this.onSearch} />
 
-                        <ReactBootStrap.Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>ID report</th>
-                                    <th>Mã công tơ</th>
-                                    <th>Ngày nhập</th>
-                                    <th>Mua</th>
-                                    <th>Sử dụng</th>
-                                    <th>Còn lại</th>
-                                    <th>Tổng lượng dùng</th>
-                                    <th>Tín hiệu</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {theData}
-                            </tbody>
-                        </ReactBootStrap.Table>
+                                    <ReactBootStrap.Table striped bordered hover>
+                                        <thead>
+                                            <tr>
+                                                <th>ID report</th>
+                                                <th>Mã công tơ</th>
+                                                <th>Ngày nhập</th>
+                                                <th>Mua</th>
+                                                <th>Sử dụng</th>
+                                                <th>Còn lại</th>
+                                                <th>Tổng lượng dùng</th>
+                                                <th>Tín hiệu</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {theDataReports}
+                                        </tbody>
+                                    </ReactBootStrap.Table>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <Footer></Footer>
 

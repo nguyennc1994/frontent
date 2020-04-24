@@ -14,3 +14,17 @@
 .right {
     float : right
 }
+.shadow {
+box-shadow: 10px 10px 5px grey;
+}
+.mt-50{
+    margin-top: 50px
+}
+.pd-20{
+    padding: 20px
+}
+.br-10{border-radius: 10px;}
+.br-3{border-radius: 3px;}
+.info{
+    background-color: #00bcd4 !important;
+}

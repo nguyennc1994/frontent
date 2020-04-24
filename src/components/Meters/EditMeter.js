@@ -11,20 +11,20 @@ class EditMeter extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data_customer:[],
-            pid_number : "",
-            is_check : true,
+            data_customer: [],
+            pid_number: "",
+            is_check: true,
         }
         this.editMeter = this.editMeter.bind(this);
-        this.onChange = this.onChange.bind(this);   
+        this.onChange = this.onChange.bind(this);
     }
 
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
-        var value = target.type==="checkbox" ? target.checked : target.value;
+        var value = target.type === "checkbox" ? target.checked : target.value;
         this.setState({
-            [name] : value
+            [name]: value
         })
         console.log(this.state)
     }
@@ -39,24 +39,24 @@ class EditMeter extends Component {
     getCheckBox = () => {
         var checkBox = document.getElementById("myCheck");
         console.log("AAA")
-        if (this.state.is_check == true){
-            checkBox.checked=true;
-          } else {
-              checkBox.checked=false;
-          }
+        if (this.state.is_check == true) {
+            checkBox.checked = true;
+        } else {
+            checkBox.checked = false;
+        }
     }
-    
-    componentDidMount(){
-        const meterId = this.props.match.params.id;   
-        Axios.get(`http://149.28.137.86:8000/api/v1/meters/meters/`+meterId+`/`, {
-            headers: { 'Authorization': "Token "+localStorage.userData }
+
+    componentDidMount() {
+        const meterId = this.props.match.params.id;
+        Axios.get(`http://149.28.137.86:8000/api/v1/meters/meters/` + meterId + `/`, {
+            headers: { 'Authorization': "Token " + localStorage.userData }
         })
             .then(json => {
-                var data=json.data;
+                var data = json.data;
                 console.log(data)
                 this.setState({
                     pid_number: data.pid_number,
-                    is_check: data.is_active,            
+                    is_check: data.is_active,
                 })
                 console.log(this.state)
                 this.getCheckBox()
@@ -67,72 +67,83 @@ class EditMeter extends Component {
                     data: [],
                     loading: false,
                 })
-            })    
+            })
     }
-    
+
     checkCheckBox = () => {
         var checkBox = document.getElementById("myCheck");
         this.setState({
-            is_check : checkBox.checked
-            
+            is_check: checkBox.checked
+
         })
         console.log(checkBox.checked)
-      }
+    }
 
-    editMeter=(e) => {
-        e.preventDefault();  
-        const meterId = this.props.match.params.id;   
-        if(this.state.pid_number){
-            
-                PutData(`http://149.28.137.86:8000/api/v1/meters/meters/`+meterId+`/`,
-                    {
-                        pid_number: this.state.pid_number,
-                        customer: this.state.customer,
-                        is_active: this.state.is_check,
+    editMeter = (e) => {
+        e.preventDefault();
+        const meterId = this.props.match.params.id;
+        if (this.state.pid_number) {
+
+            PutData(`http://149.28.137.86:8000/api/v1/meters/meters/` + meterId + `/`,
+                {
+                    pid_number: this.state.pid_number,
+                    customer: this.state.customer,
+                    is_active: this.state.is_check,
                 })
                 .then(json => {
-                    console.log(json)               
+                    console.log(json)
 
-                    })  
-                    .catch(e => {
-                        console.error(e)
+                })
+                .catch(e => {
+                    console.error(e)
 
-                    })
-                }
-            }
+                })
+        }
+    }
 
-    render() {  
+    render() {
         var { data_customer, pid_number } = this.state
 
-            return(
-                <div className="wrapper ">
-  			<Sidebar></Sidebar> 
-			
-  			<div className="main-panel">
-			  	<Header></Header>
-                  <div className="content">
-                        <ReactBootStrap.Form>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Mã công tơ</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" name="pid_number" disabled value={pid_number} onChange={this.onChange} placeholder="Mã công tơ" />
-                            </ReactBootStrap.Form.Group>
-                         
-                            <ReactBootStrap.Form.Group id="formGridCheckbox">
-                                <ReactBootStrap.Form.Label className="text">Trạng thái</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onChange={this.checkCheckBox} />
+        return (
+            <div className="wrapper ">
+                <Sidebar></Sidebar>
 
-                            </ReactBootStrap.Form.Group>
+                <div className="main-panel">
+                    <Header></Header>
+                    <div className="content">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-info">
+                                    <h4 className="card-title">Sửa công tơ</h4>
+                                    <p className="card-category"></p>
+                                </div>
+                                <div className="card-body">
+                                    <ReactBootStrap.Form>
+                                        <ReactBootStrap.Form.Group controlId="">
+                                            <ReactBootStrap.Form.Label className="text">Mã công tơ</ReactBootStrap.Form.Label>
+                                            <ReactBootStrap.Form.Control type="text" name="pid_number" disabled value={pid_number} onChange={this.onChange} placeholder="Mã công tơ" />
+                                        </ReactBootStrap.Form.Group>
 
-                            <ReactBootStrap.Button variant="primary" type="submit" onClick={this.editMeter}>
-                                Thêm
+                                        <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                            <ReactBootStrap.Form.Label className="text">Trạng thái</ReactBootStrap.Form.Label>
+                                            <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onChange={this.checkCheckBox} />
+
+                                        </ReactBootStrap.Form.Group>
+
+                                        <ReactBootStrap.Button variant="info" type="submit" onClick={this.editMeter}>
+                                            Thêm
                     </ReactBootStrap.Button>
-                        </ReactBootStrap.Form>
+                                    </ReactBootStrap.Form>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
-   				<Footer></Footer>
-   
-  			</div>
-		</div>
+                    <Footer></Footer>
+
+                </div>
+            </div>
         );
     }
 }

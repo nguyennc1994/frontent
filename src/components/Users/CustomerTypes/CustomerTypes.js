@@ -46,13 +46,13 @@ class CustomerTypes extends Component {
             })
     }
     showCustomerType = (cus_type) => {
-        if (cus_type===1) return (<span > Hộ gia đình</span>)
-        else if (cus_type===2) return (<span>Doanh nghiệp</span>)
+        if (cus_type === 1) return (<span > Hộ gia đình</span>)
+        else if (cus_type === 2) return (<span>Doanh nghiệp</span>)
         else return (<span>Chưa chọn kiểu</span>)
     }
     showPayType = (pay_type) => {
-        if (pay_type===1) return (<span >Trả trước</span>)
-        else if (pay_type===2) return (<span>Trả sau</span>)
+        if (pay_type === 1) return (<span >Trả trước</span>)
+        else if (pay_type === 2) return (<span>Trả sau</span>)
         else return (<span>Chưa chọn kiểu</span>)
     }
 
@@ -60,21 +60,21 @@ class CustomerTypes extends Component {
         this.getData()
     }
 
-    
-    componentWillMount() {	
-        if(localStorage.getItem("userData")){		
-        }	
-       
-        else{
-         this.setState({redirectToReferrer: true});
-        }	
-       }
+
+    componentWillMount() {
+        if (localStorage.getItem("userData")) {
+        }
+
+        else {
+            this.setState({ redirectToReferrer: true });
+        }
+    }
 
     render() {
 
         if (this.state.redirectToReferrer) {
-            return (<Redirect to={'/login'}/>)
-          }     
+            return (<Redirect to={'/login'} />)
+        }
         const theData = this.state.data.map((d) => {
             return (
 
@@ -84,7 +84,7 @@ class CustomerTypes extends Component {
                     <td>{this.showCustomerType(d.cus_type)}</td>
                     <td>{this.showPayType(d.pay_type)}</td>
                     <td>Ngày {d.deadline_payment} hàng tháng </td>
-                    <td> <NavLink className="btn btn-success" to={"/users/customertype/" + d.id + "/edit"}>Edit</NavLink>
+                    <td> <NavLink className="btn btn-success"  disabled={true} to={"/users/customertype/" + d.id + "/edit"}>Edit</NavLink>
                     </td>
                 </tr>
             )
@@ -96,24 +96,35 @@ class CustomerTypes extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-info">
+                                    <h4 className="card-title">Danh sách Kiểu khách hàng</h4>
+                                    <p className="card-category"></p>
+                                </div>
+                                <div className="card-body">
+                                    <NavLink to="/users/customertype/add" disabled={true} className="btn btn-info">Thêm</NavLink>
 
-                        <NavLink to="/users/customertype/add" className="btn btn-info">Thêm</NavLink>
+                                    <ReactBootStrap.Table striped bordered hover>
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tên kiểu</th>
+                                                <th>Kiểu khách hàng</th>
+                                                <th>Kiểu thanh toán</th>
+                                                <th>Kỳ hạn thanh toán</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {theData}
+                                        </tbody>
+                                    </ReactBootStrap.Table>
+                                </div>
+                            </div>
+                        </div>
 
-                        <ReactBootStrap.Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên kiểu</th>
-                                    <th>Kiểu khách hàng</th>
-                                    <th>Kiểu thanh toán</th>
-                                    <th>Kỳ hạn thanh toán</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {theData}
-                            </tbody>
-                        </ReactBootStrap.Table>
+
                     </div>
                     <Footer></Footer>
 

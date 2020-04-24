@@ -14,7 +14,7 @@
  */
 /*     brand Colors              */
 .card {
-  font-size: .875rem;
+  font-size: 1rem;
 }
 
 *,
@@ -17857,7 +17857,7 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 }
 
 .card [class*="card-header-"]:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
-  border-radius: 3px;
+  border-radius: 8px;
   margin-top: -20px;
   padding: 15px;
 }

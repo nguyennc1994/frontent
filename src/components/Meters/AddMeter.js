@@ -49,40 +49,49 @@ class AddMeter extends Component {
                 customer: this.state.customer,
                 is_active: this.state.is_check,
             }).then((result) => {
-                if(result.username===this.state.username) alert("Tạo tài khoản Meter thành công ")
-                    else alert("Tạo tài khoản Meter không thành công")
+                if (result.username === this.state.username) alert("Tạo tài khoản Meter thành công ")
+                else alert("Tạo tài khoản Meter không thành công")
             });
     }
 
-     checkedCheckBox = () => {
+    checkedCheckBox = () => {
         var checkBox = document.getElementById("myCheck");
-          this.setState({
-              is_check : checkBox.checked
-              
-          })
-          console.log(checkBox.checked)
-      }
+        this.setState({
+            is_check: checkBox.checked
+
+        })
+        console.log(checkBox.checked)
+    }
     render() {
         return (
             <div className="wrapper ">
                 <Sidebar></Sidebar>
                 <div className="main-panel">
                     <Header></Header>
-                    <div className="content">              
-                        <ReactBootStrap.Form>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Mã công tơ</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" name="pid_number" onChange={this.onChange} placeholder="Mã công tơ" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group id="formGridCheckbox">
-                                <ReactBootStrap.Form.Label className="text">Trạng thái</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck"  onClick={this.checkedCheckBox}  />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Button variant="primary" type="submit" onClick={this.addMeter}>
-                                Thêm
+                    <div className="content">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-info">
+                                    <h4 className="card-title">Thêm công tơ</h4>
+                                    <p className="card-category"></p>
+                                </div>
+                                <div className="card-body">
+                                    <ReactBootStrap.Form>
+                                        <ReactBootStrap.Form.Group controlId="">
+                                            <ReactBootStrap.Form.Label className="text">Mã công tơ</ReactBootStrap.Form.Label>
+                                            <ReactBootStrap.Form.Control type="text" name="pid_number" onChange={this.onChange} placeholder="Mã công tơ" />
+                                        </ReactBootStrap.Form.Group>
+                                        <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                            <ReactBootStrap.Form.Label className="text">Trạng thái</ReactBootStrap.Form.Label>
+                                            <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onClick={this.checkedCheckBox} />
+                                        </ReactBootStrap.Form.Group>
+                                        <ReactBootStrap.Button variant="info" type="submit" onClick={this.addMeter}>
+                                            Thêm
                     </ReactBootStrap.Button>
-                        </ReactBootStrap.Form>
-
+                                    </ReactBootStrap.Form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <Footer></Footer>
 

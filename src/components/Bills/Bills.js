@@ -4,53 +4,54 @@ import Axios from 'axios';
 import Sidebar from '../Sidebar/Sidebar';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Search from '../Search/Search'
 // import './Users/Customers/Customers.css';
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 class Bills extends Component {
     constructor(props) {
         super(props)
         this.state = {
             redirectToReferrer: false,
-            is_active : false,
+            is_active: false,
 
-            data : [],
+            data: [],
         }
         this.getData = this.getData.bind(this)
         this.showStatus = this.showStatus.bind(this)
     }
 
-    getData(){    
-        let token = "Token "+localStorage.userData;
+    getData() {
+        let token = "Token " + localStorage.userData;
         console.log(token);
         this.setState({
 
-            data : [],
+            data: [],
         })
-        Axios.get(`http://149.28.137.86:8000/api/v1/payments/bills/`,{
-            headers : {'Authorization' : token}
+        Axios.get(`http://149.28.137.86:8000/api/v1/payments/bills/`, {
+            headers: { 'Authorization': token }
         })
-        .then(json => {
-            
-            this.setState({
-                data : json.data,
+            .then(json => {
+
+                this.setState({
+                    data: json.data,
                 })
-            })  
-            
+            })
+
             .catch(e => {
                 // console.error(e)
                 this.setState({
-                    data : [],
-                    })
+                    data: [],
+                })
             })
-            console.log(this.state.data)
+        console.log(this.state.data)
     }
-    
-    showStatus = (status) => {
-        if(status) return(<span className="btn btn-info">Paid</span>)
-        else return (<span className="btn btn-danger">Unpaid</span>) 
-      }
 
-    
+    showStatus = (status) => {
+        if (status) return (<span className="btn btn-info">Paid</span>)
+        else return (<span className="btn btn-danger">Unpaid</span>)
+    }
+
+
     // findIndex = (data, id) => {
     //         var result = -1;
     //         products.forEach
@@ -59,72 +60,84 @@ class Bills extends Component {
         // console.log(this.state)
         this.getData()
     }
-    componentWillMount() {	
-		if(localStorage.getItem("userData")){		
-		}	
-	   
-		else{
-		 this.setState({redirectToReferrer: true});
-		}	
-	   }
+    componentWillMount() {
+        if (localStorage.getItem("userData")) {
+        }
+
+        else {
+            this.setState({ redirectToReferrer: true });
+        }
+    }
 
     render() {
 
-		if (this.state.redirectToReferrer) {
-            return (<Redirect to={'/login'}/>)
-		  } 
+        if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'} />)
+        }
         const theData = this.state.data.map((d) => {
-           
-          return( 
-                      <tr key={d.id}>
-                          <td>{d.id}</td>
-                          <td>{d.month}</td>
-                          <td>{d.customer.username}</td>
-                          <td>{d.meter.pid_number}</td>
-                          <td>{d.last_report.total}</td>
-                          <td>{d.new_report.total}</td>
-                          <td>{d.used_index}</td>
-                          <td>{d.total_pay}</td>
-                          <td>{this.showStatus(d.status)}</td>
-                      </tr>              
-          ) 
-          })
-            return(
-                <div className="wrapper ">
-  			<Sidebar></Sidebar> 
-			
-  			<div className="main-panel">
-			  	<Header></Header>
-                <div className="content">
-                  
-               
-                 
-                  <ReactBootStrap.Table striped bordered hover>
-                   <thead>
-                          <tr>
-                              <th>ID</th>
-                              <th>Tháng</th>
-                              <th>Khách hàng</th>
-                              <th>Công tơ</th>
-                              <th>Báo cáo cũ</th>
-                              <th>Báo cáo mới</th>
-                              <th>Chỉ sô sử dụng</th>
-                              <th>Tổng tiền</th>
-                              <th>Trạng thái</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          {theData}
-                      </tbody>
-                  </ReactBootStrap.Table>
-                  </div>
-   				<Footer></Footer>
-   
-  			</div>
-		</div>
+
+            return (
+                <tr key={d.id}>
+                    <td>{d.id}</td>
+                    <td>{d.month}</td>
+                    <td>{d.customer.username}</td>
+                    <td>{d.meter.pid_number}</td>
+                    <td>{d.last_report.total}</td>
+                    <td>{d.new_report.total}</td>
+                    <td>{d.used_index}</td>
+                    <td>{d.total_pay}</td>
+                    <td>{this.showStatus(d.status)}</td>
+                </tr>
+            )
+        })
+        return (
+            <div className="wrapper ">
+                <Sidebar></Sidebar>
+
+                <div className="main-panel">
+                    <Header></Header>
+                    <div className="content">
+
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-info">
+                                    <h4 className="card-title">Danh sách hóa đơn</h4>
+                                    <p className="card-category"></p>
+                                </div>
+                                <div className="card-body">
+                                    <Search onSearch={this.onSearch} />
+
+                                    <ReactBootStrap.Table striped bordered hover>
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tháng</th>
+                                                <th>Khách hàng</th>
+                                                <th>Công tơ</th>
+                                                <th>Báo cáo cũ</th>
+                                                <th>Báo cáo mới</th>
+                                                <th>Chỉ sô sử dụng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {theData}
+                                        </tbody>
+                                    </ReactBootStrap.Table>
+                                </div>
+                            </div>
+                        </div>
 
 
-             
+                    </div>
+                    <Footer></Footer>
+
+                </div>
+            </div>
+
+
+
 
 
         );

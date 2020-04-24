@@ -99,20 +99,20 @@ class Staffs extends Component {
             keyword: keyword
         })
     }
-    componentWillMount() {	
-		if(localStorage.getItem("userData")){		
-		}	
-	   
-		else{
-		 this.setState({redirectToReferrer: true});
-		}	
-	   }
+    componentWillMount() {
+        if (localStorage.getItem("userData")) {
+        }
+
+        else {
+            this.setState({ redirectToReferrer: true });
+        }
+    }
 
     render() {
 
-		if (this.state.redirectToReferrer) {
-            return (<Redirect to={'/login'}/>)
-		  } 
+        if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'} />)
+        }
 
         var { data, keyword } = this.state
 
@@ -124,7 +124,7 @@ class Staffs extends Component {
 
         const theData = data.map((d) => {
             // for(var i = 1; i<=data.length; i++){
-                
+
             return (
 
                 <tr key={d.username}>
@@ -153,27 +153,38 @@ class Staffs extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
-                        <NavLink to="/users/staff/add" className="btn btn-info">Thêm</NavLink>
-                        <Search onSearch={this.onSearch} />
-                        <ReactBootStrap.Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    {/* <th onClick={() => this.sortBy('id')}>STT</th> */}
-                                    <th onClick={() => this.sortBy('id')}>ID</th>
-                                    <th onClick={() => this.sortBy('username')}>Tên đăng nhập</th>
-                                    <th onClick={() => this.sortBy('full_name')}>Họ và Tên</th>
-                                    <th onClick={() => this.sortBy('birthday')}>Ngày sinh</th>
-                                    <th onClick={() => this.sortBy('is_active')}>Trạng thái</th>
-                                    <th onClick={() => this.sortBy('is_admin')}>Quyền quản trị</th>
-                                    <th onClick={() => this.sortBy('date_joined')}>Ngày thêm</th>
-                                    <th onClick={() => this.sortBy('last_login')}>Lần cuối đăng nhập</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {theData}
-                            </tbody>
-                        </ReactBootStrap.Table>
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-info">
+                                    <h4 className="card-title">Danh sách nhân viên</h4>
+                                    <p className="card-category"></p>
+                                </div>
+                                <div className="card-body">
+                                    <NavLink to="/users/staff/add" className="btn btn-info">Thêm</NavLink>
+                                    <Search onSearch={this.onSearch} />
+                                    <ReactBootStrap.Table striped bordered hover>
+                                        <thead>
+                                            <tr>
+                                                {/* <th onClick={() => this.sortBy('id')}>STT</th> */}
+                                                <th onClick={() => this.sortBy('id')}>ID</th>
+                                                <th onClick={() => this.sortBy('username')}>Tên đăng nhập</th>
+                                                <th onClick={() => this.sortBy('full_name')}>Họ và Tên</th>
+                                                <th onClick={() => this.sortBy('birthday')}>Ngày sinh</th>
+                                                <th onClick={() => this.sortBy('is_active')}>Trạng thái</th>
+                                                <th onClick={() => this.sortBy('is_admin')}>Quyền quản trị</th>
+                                                <th onClick={() => this.sortBy('date_joined')}>Ngày thêm</th>
+                                                <th onClick={() => this.sortBy('last_login')}>Lần cuối đăng nhập</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {theData}
+                                        </tbody>
+                                    </ReactBootStrap.Table>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                     <Footer></Footer>

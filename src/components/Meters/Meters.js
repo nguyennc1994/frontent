@@ -126,8 +126,14 @@ class Meters extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
-
-                        <NavLink to="/meter/add" className="btn btn-info">Thêm</NavLink>
+                    <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-info">
+                                    <h4 className="card-title">Danh sách công tơ</h4>
+                                    <p className="card-category"></p>
+                                </div>
+                                <div className="card-body">
+                                <NavLink to="/meter/add" className="btn btn-info">Thêm</NavLink>
                         <Search onSearch={this.onSearch} />
                         <ReactBootStrap.Table striped bordered hover>
                             <thead>
@@ -144,6 +150,11 @@ class Meters extends Component {
                                 {theData}
                             </tbody>
                         </ReactBootStrap.Table>
+                                </div>
+                            </div>
+                        </div>
+
+                       
                     </div>
                     <Footer></Footer>
 

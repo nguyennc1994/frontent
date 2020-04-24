@@ -15,26 +15,26 @@ class Sidebar extends Component {
                     <div className="sidebar-wrapper">
                         <ul className="nav">
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/home">
-                                    <i className="material-icons">dashboard</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/home">
+                                    <i className="selected material-icons">dashboard</i>
                                     <p>Dashboard</p>
                                 </NavLink>
                                 <ul className="nav nav-treeview">
                                     <li className="nav-item ">
                                         <NavLink className="nav-link" to="/dashboard1">
-                                            <i className="material-icons">insert_chart</i>
+                                            <i className="selected material-icons">insert_chart</i>
                                             <p>Chart 1</p>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item ">
                                         <NavLink className="nav-link" to="/dashboard2">
-                                            <i className="material-icons">pie_chart</i>
+                                            <i className="selected material-icons">pie_chart</i>
                                             <p>Chart 2</p>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item ">
                                         <NavLink className="nav-link" to="/dashboard3">
-                                            <i className="material-icons">show_chart</i>
+                                            <i className="selected material-icons">show_chart</i>
                                             <p>Chart 3</p>
                                         </NavLink>
                                     </li>
@@ -42,14 +42,14 @@ class Sidebar extends Component {
                             </li>
 
                             <li className="nav-item ">
-                                <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/reports">
-                                    <i className="material-icons">library_books</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/reports">
+                                    <i className="selected material-icons">library_books</i>
                                     <p>Reports</p>
                                 </NavLink>
                             </li>
                             <li className="nav-item ">
-                                <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/bills">
-                                    <i className="material-icons">content_paste</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/bills">
+                                    <i className="selected material-icons">content_paste</i>
                                     <p>Bills</p>
                                 </NavLink>
                             </li>
@@ -74,26 +74,26 @@ class Sidebar extends Component {
                             <div className="sidebar-wrapper">
                                 <ul className="nav">
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" to="/home">
-                                            <i className="material-icons">dashboard</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/home">
+                                            <i className="selected material-icons">dashboard</i>
                                             <p>Dashboard</p>
                                         </NavLink>
                                         <ul className="nav nav-treeview">
                                             <li className="nav-item ">
                                                 <NavLink className="nav-link" to="/dashboard1">
-                                                    <i className="material-icons">insert_chart</i>
+                                                    <i className="selected material-icons">insert_chart</i>
                                                     <p>Chart 1</p>
                                                 </NavLink>
                                             </li>
                                             <li className="nav-item ">
                                                 <NavLink className="nav-link" to="/dashboard2">
-                                                    <i className="material-icons">pie_chart</i>
+                                                    <i className="selected material-icons">pie_chart</i>
                                                     <p>Chart 2</p>
                                                 </NavLink>
                                             </li>
                                             <li className="nav-item ">
                                                 <NavLink className="nav-link" to="/dashboard3">
-                                                    <i className="material-icons">show_chart</i>
+                                                    <i className="selected material-icons">show_chart</i>
                                                     <p>Chart 3</p>
                                                 </NavLink>
                                             </li>
@@ -102,20 +102,20 @@ class Sidebar extends Component {
 
 
                                     <li className="nav-item ">
-                                        <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/users">
-                                            <i className="material-icons">person</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/users">
+                                            <i className="selected material-icons">person</i>
                                             <p>Users</p>
                                         </NavLink>
                                         <ul className="nav nav-treeview">
                                             {/* <li className="nav-item">
                                                 <NavLink className="nav-link" to="/users/customertypes">
-                                                    <i className="material-icons">insert_chart</i>
+                                                    <i className="selected material-icons">insert_chart</i>
                                                     <p>Customer Types</p>
                                                 </NavLink>
                                             </li> */}
                                             <li className="nav-item ">
                                                 <NavLink className="nav-link" to="/users/customers">
-                                                    <i className="material-icons">pie_chart</i>
+                                                    <i className="selected material-icons">pie_chart</i>
                                                     <p>Customers</p>
                                                 </NavLink>
                                             </li>                                     
@@ -124,22 +124,22 @@ class Sidebar extends Component {
 
 
                                     <li className="nav-item ">
-                                        <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/meters">
-                                            <i className="material-icons">content_paste</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/meters">
+                                            <i className="selected material-icons">content_paste</i>
                                             <p>Meters</p>
                                         </NavLink>
                                     </li>
 
 
                                     <li className="nav-item ">
-                                        <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/reports">
-                                            <i className="material-icons">library_books</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/reports">
+                                            <i className="selected material-icons">library_books</i>
                                             <p>Reports</p>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item ">
-                                        <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/bills">
-                                            <i className="material-icons">content_paste</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/bills">
+                                            <i className="selected material-icons">content_paste</i>
                                             <p>Bills</p>
                                         </NavLink>
                                     </li>
@@ -163,26 +163,26 @@ class Sidebar extends Component {
                     <div className="sidebar-wrapper">
                         <ul className="nav">
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/home">
-                                    <i className="material-icons">dashboard</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/home">
+                                    <i className="selected material-icons">dashboard</i>
                                     <p>Dashboard</p>
                                 </NavLink>
                                 <ul className="nav nav-treeview">
                                     <li className="nav-item ">
-                                        <NavLink className="nav-link" to="/dashboard1">
-                                            <i className="material-icons">insert_chart</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }}className="nav-link" to="/dashboard1">
+                                            <i className="selected material-icons">insert_chart</i>
                                             <p>Chart 1</p>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item ">
-                                        <NavLink className="nav-link" to="/dashboard2">
-                                            <i className="material-icons">pie_chart</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }}className="nav-link" to="/dashboard2">
+                                            <i className="selected material-icons">pie_chart</i>
                                             <p>Chart 2</p>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item ">
-                                        <NavLink className="nav-link" to="/dashboard3">
-                                            <i className="material-icons">show_chart</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }}className="nav-link" to="/dashboard3">
+                                            <i className="selected material-icons">show_chart</i>
                                             <p>Chart 3</p>
                                         </NavLink>
                                     </li>
@@ -191,26 +191,26 @@ class Sidebar extends Component {
 
 
                             <li className="nav-item ">
-                                <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/users">
-                                    <i className="material-icons">person</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/users">
+                                    <i className="selected material-icons">person</i>
                                     <p>Users</p>
                                 </NavLink>
                                 <ul className="nav nav-treeview">
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" to="/users/customertypes">
-                                            <i className="material-icons">insert_chart</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }}className="nav-link" to="/users/customertypes">
+                                            <i className="selected material-icons">insert_chart</i>
                                             <p>Customer Types</p>
                                         </NavLink>
                                     </li>
-                                    <li className="nav-item ">
-                                        <NavLink className="nav-link" to="/users/customers">
-                                            <i className="material-icons">pie_chart</i>
+                                    <li className="selected nav-item ">
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }}className="nav-link" to="/users/customers">
+                                            <i className="selected material-icons">pie_chart</i>
                                             <p>Customers</p>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item ">
-                                        <NavLink className="nav-link" to="/users/staffs">
-                                            <i className="material-icons">show_chart</i>
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/users/staffs">
+                                            <i className="selected material-icons">show_chart</i>
                                             <p>Staffs</p>
                                         </NavLink>
                                     </li>
@@ -219,22 +219,22 @@ class Sidebar extends Component {
 
 
                             <li className="nav-item ">
-                                <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/meters">
-                                    <i className="material-icons">content_paste</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/meters">
+                                    <i className="selected material-icons">content_paste</i>
                                     <p>Meters</p>
                                 </NavLink>
                             </li>
 
 
                             <li className="nav-item ">
-                                <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/reports">
-                                    <i className="material-icons">library_books</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/reports">
+                                    <i className="selected material-icons">library_books</i>
                                     <p>Reports</p>
                                 </NavLink>
                             </li>
                             <li className="nav-item ">
-                                <NavLink activeStyle={{ backgroundColor: "#9C27B0", color: "#ffffff" }} className="nav-link" to="/bills">
-                                    <i className="material-icons">content_paste</i>
+                                <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }} className="nav-link" to="/bills">
+                                    <i className="selected material-icons">content_paste</i>
                                     <p>Bills</p>
                                 </NavLink>
                             </li>

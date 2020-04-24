@@ -73,7 +73,7 @@ class Login extends Component {
                         <ReactBootStrap.Form.Control name="password" type="password" placeholder="Password" onChange={this.onChange} />
                     </ReactBootStrap.Form.Group>
 
-                    <ReactBootStrap.Button variant="primary" type="submit" onClick={this.login}>
+                    <ReactBootStrap.Button variant="info" type="submit" onClick={this.login}>
                         Login
 
                     </ReactBootStrap.Button>
