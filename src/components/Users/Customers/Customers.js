@@ -5,12 +5,13 @@ import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import './Customers.css';
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import Search from '../../Search/Search';
 class Customers extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            redirectToReferrer: false,
             data: [],
             data_meter: [],
             keyword :"",
@@ -21,6 +22,15 @@ class Customers extends Component {
         this.compareBy = this.compareBy.bind(this);
         this.sortBy = this.sortBy.bind(this);
     }
+
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
 
     getData() {
         let token = "Token " + localStorage.userData;
@@ -100,7 +110,25 @@ class Customers extends Component {
         })
     }
     
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
+
     render() {
+
+		if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+		  } 
+
+        if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+          } 
+          
         var {data, keyword,data_meter} = this.state
         if(keyword){
             data = data.filter((data)=>{

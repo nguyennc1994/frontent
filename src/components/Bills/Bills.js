@@ -5,12 +5,12 @@ import Sidebar from '../Sidebar/Sidebar';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 // import './Users/Customers/Customers.css';
-import {NavLink} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 class Bills extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            redirectToReferrer: false,
             is_active : false,
 
             data : [],
@@ -46,8 +46,8 @@ class Bills extends Component {
     }
     
     showStatus = (status) => {
-        if(status) return(<span className="btn btn-info">Đã thanh toán</span>)
-        else return (<span className="btn btn-danger">Chưa thanh toán</span>) 
+        if(status) return(<span className="btn btn-info">Paid</span>)
+        else return (<span className="btn btn-danger">Unpaid</span>) 
       }
 
     
@@ -59,20 +59,30 @@ class Bills extends Component {
         // console.log(this.state)
         this.getData()
     }
-    
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
+
     render() {
-        // const { users, page, totalPages } = this.state;
-        // const startIndex = page * TOTAL_PER_PAGE;
+
+		if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+		  } 
         const theData = this.state.data.map((d) => {
            
           return( 
                       <tr key={d.id}>
                           <td>{d.id}</td>
                           <td>{d.month}</td>
-                          <td>{d.customer}</td>
-                          <td>{d.meter}</td>
-                          <td>{d.last_report}</td>
-                          <td>{d.new_report}</td>
+                          <td>{d.customer.username}</td>
+                          <td>{d.meter.pid_number}</td>
+                          <td>{d.last_report.total}</td>
+                          <td>{d.new_report.total}</td>
                           <td>{d.used_index}</td>
                           <td>{d.total_pay}</td>
                           <td>{this.showStatus(d.status)}</td>

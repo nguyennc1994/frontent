@@ -4,10 +4,12 @@ import Axios from 'axios';
 import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
+import { Redirect } from 'react-router-dom'
 class CustomerInfomation extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            redirectToReferrer: false,
             username: "",
             password: "",
             password2: "",
@@ -64,7 +66,20 @@ class CustomerInfomation extends Component {
             })
             
     }
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
+
     render() {
+
+		if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+		  } 
         var { username, full_name, birthday, is_check, address,  person_num, customer_type, data_customertype } = this.state
         console.log(username)
         return (

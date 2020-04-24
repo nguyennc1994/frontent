@@ -6,12 +6,13 @@ import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import '../Customers/Customers.css';
 import { PutData } from '../../../services/ApiCaller';
+import { Redirect } from 'react-router-dom'
 
 class EditStaff extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            redirectToReferrer: false,
             username: "",
             password: "",
             re_password: "",
@@ -132,7 +133,20 @@ class EditStaff extends Component {
 
     }
 
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
+
     render() {
+
+		if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+		  } 
         var { username, full_name, birthday } = this.state
         return (
             <div className="wrapper ">

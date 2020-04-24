@@ -4,7 +4,7 @@ import Axios from 'axios';
 import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import Search from '../../Search/Search';
 // import Pagination from '../../Pagination/Pagination';
 
@@ -13,6 +13,7 @@ class Staffs extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            redirectToReferrer: false,
             data: [],
             keyword: "",
             sorted: true
@@ -98,7 +99,20 @@ class Staffs extends Component {
             keyword: keyword
         })
     }
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
+
     render() {
+
+		if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+		  } 
 
         var { data, keyword } = this.state
 

@@ -6,6 +6,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
 import Pagination from "react-js-pagination";
+import { Redirect } from 'react-router-dom'
 // require("bootstrap/less/bootstrap.less");
 // import './Customers.css';
 // import { NavLink } from 'react-router-dom'
@@ -13,6 +14,7 @@ class Reports extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            redirectToReferrer: false,
             data: [],
             loading: false,
             keyword:"",
@@ -90,8 +92,20 @@ class Reports extends Component {
             keyword :keyword
         })
     }
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
 
     render() {
+
+		if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+		  } 
         var {data, keyword} = this.state
        
         // if(keyword){

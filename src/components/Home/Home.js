@@ -20,15 +20,12 @@ class Home extends Component {
 	} 
 	
 	componentWillMount() {	
-
-		if(sessionStorage.getItem("userData")){		
+		if(localStorage.getItem("userData")){		
 		}	
 	   
 		else{
 		 this.setState({redirectToReferrer: true});
-		}
-		
-	 
+		}	
 	   }
 
     render() {

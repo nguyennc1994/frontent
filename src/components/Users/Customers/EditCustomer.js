@@ -6,11 +6,13 @@ import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import './Customers.css';
 import { PatchData, PutData } from '../../../services/ApiCaller';
+import { Redirect } from 'react-router-dom'
 
 class AddCustomer extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            redirectToReferrer: false,
             data_meter: [],
             data_customertype: [],
             username: "",
@@ -251,7 +253,20 @@ class AddCustomer extends Component {
                 })
         }
 
-    render() {
+        componentWillMount() {	
+            if(localStorage.getItem("userData")){		
+            }	
+           
+            else{
+             this.setState({redirectToReferrer: true});
+            }	
+           }
+    
+        render() {
+    
+            if (this.state.redirectToReferrer) {
+                return (<Redirect to={'/login'}/>)
+              } 
         var { username, full_name, birthday, address, person_num, customer_type, data_customertype, data_meter, meter } = this.state
         const theData = data_customertype.map((d) => {
             return (

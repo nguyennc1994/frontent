@@ -5,7 +5,7 @@ import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 // import './Customers.css';
-import { NavLink } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 class CustomerTypes extends Component {
     constructor(props) {
         super(props)
@@ -60,9 +60,21 @@ class CustomerTypes extends Component {
         this.getData()
     }
 
+    
+    componentWillMount() {	
+        if(localStorage.getItem("userData")){		
+        }	
+       
+        else{
+         this.setState({redirectToReferrer: true});
+        }	
+       }
+
     render() {
-        // const { users, page, totalPages } = this.state;
-        // const startIndex = page * TOTAL_PER_PAGE;
+
+        if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+          }     
         const theData = this.state.data.map((d) => {
             return (
 

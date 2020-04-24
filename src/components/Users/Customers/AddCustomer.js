@@ -6,10 +6,12 @@ import Footer from '../../Footer/Footer';
 import './Customers.css';
 import { PostData } from '../../../services/ApiCaller';
 import Axios from 'axios';
+import { NavLink, Redirect } from 'react-router-dom'
 class AddCustomer extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            redirectToReferrer: false,
             data_customertype: [],
             data_meter: [],
             username: "",
@@ -153,7 +155,20 @@ class AddCustomer extends Component {
         console.log(checkBox.checked)
     }
 
+    componentWillMount() {	
+		if(localStorage.getItem("userData")){		
+		}	
+	   
+		else{
+		 this.setState({redirectToReferrer: true});
+		}	
+	   }
+
     render() {
+
+		if (this.state.redirectToReferrer) {
+            return (<Redirect to={'/login'}/>)
+		  } 
         var { data_customertype, customer_type, data_meter, meter } = this.state
         const theDataCustomerType = data_customertype.map((d) => {
             return (
