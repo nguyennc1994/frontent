@@ -51,6 +51,7 @@ class AddMeter extends Component {
             }).then((result) => {
                 if (result.username === this.state.username) alert("Tạo tài khoản Meter thành công ")
                 else alert("Tạo tài khoản Meter không thành công")
+                // history.push('/')
             });
     }
 

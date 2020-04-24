@@ -84,7 +84,7 @@ class CustomerTypes extends Component {
                     <td>{this.showCustomerType(d.cus_type)}</td>
                     <td>{this.showPayType(d.pay_type)}</td>
                     <td>Ngày {d.deadline_payment} hàng tháng </td>
-                    <td> <NavLink className="btn btn-success"  disabled={true} to={"/users/customertype/" + d.id + "/edit"}>Edit</NavLink>
+                    <td> <NavLink className="btn btn-success disabled " to={"/users/customertype/" + d.id + "/edit"}>Edit</NavLink>
                     </td>
                 </tr>
             )
@@ -103,7 +103,7 @@ class CustomerTypes extends Component {
                                     <p className="card-category"></p>
                                 </div>
                                 <div className="card-body">
-                                    <NavLink to="/users/customertype/add" disabled={true} className="btn btn-info">Thêm</NavLink>
+                                    <NavLink to="/users/customertype/add"  className="btn btn-info disabled">Thêm</NavLink>
 
                                     <ReactBootStrap.Table striped bordered hover>
                                         <thead>

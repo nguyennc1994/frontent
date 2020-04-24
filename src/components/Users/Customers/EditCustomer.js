@@ -296,6 +296,8 @@ class AddCustomer extends Component {
                                         </div>
                                         <div className="card-body">
                                             <ReactBootStrap.Form>
+                                                <div className="row">
+                                                <div className="col-6">
                                                 <ReactBootStrap.Form.Group controlId="">
                                                     <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.Form.Control type="text" name="username" value={username} disabled onChange={this.onChange} placeholder="Tên đăng nhập" />
@@ -313,6 +315,8 @@ class AddCustomer extends Component {
                                                     <ReactBootStrap.Form.Label className="text">Địa chỉ</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.Form.Control type="text" name="address" value={address} onChange={this.onChange} placeholder="Địa chỉ" />
                                                 </ReactBootStrap.Form.Group>
+                                                </div>
+                                                <div className="col-6">
                                                 <ReactBootStrap.Form.Group controlId="">
                                                     <ReactBootStrap.Form.Label className="text">Số lượng nhân khẩu</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.Form.Control type="text" name="person_num" value={person_num} onChange={this.onChange} placeholder="Số lượng nhân khẩu" />
@@ -344,9 +348,11 @@ class AddCustomer extends Component {
                                                     <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onClick={this.checkedCheckBox} />
                                                 </ReactBootStrap.Form.Group>
+                                                </div>
+                                                </div>
                                                 <ReactBootStrap.Button variant="info" type="submit" onClick={this.editCustomer}>
                                                     Sửa
-                                    </ReactBootStrap.Button>
+                                                </ReactBootStrap.Button>
                                             </ReactBootStrap.Form>
                                         </div>
                                     </div>

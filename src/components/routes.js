@@ -42,7 +42,7 @@ const Routes = () => (
             <Route path="/users/staffs" component={Staffs} />
             <Route path="/users/staff/:id/edit" component={EditStaff} />
 
-            <Route path="/meters" component={Meters} />
+            <Route path="/meters"  history={history} component={Meters} />
             <Route path="/meter/add" component={AddMeter} />
             <Route path="/meter/:id/edit" component={EditMeter} />
             <Route path="/meter/:id/report" component={ReportInMeter} />

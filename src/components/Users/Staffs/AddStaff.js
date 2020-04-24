@@ -104,6 +104,8 @@ class AddStaff extends Component {
                                 </div>
                                 <div className="card-body">
                                     <ReactBootStrap.Form >
+                                        <div className="row">
+                                            <div className="col-6">
                                         <ReactBootStrap.Form.Group controlId="">
                                             <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
                                             <ReactBootStrap.Form.Control type="text" name="username" onChange={this.onChange} placeholder="Tên đăng nhập" />
@@ -116,6 +118,8 @@ class AddStaff extends Component {
                                             <ReactBootStrap.Form.Label className="text">Nhập lại mật khẩu</ReactBootStrap.Form.Label>
                                             <ReactBootStrap.Form.Control type="password" name="re_password" onChange={this.onChange} placeholder="Mật khẩu" />
                                         </ReactBootStrap.Form.Group>
+                                        </div>
+                                        <div className="col-6">
                                         <ReactBootStrap.Form.Group controlId="">
                                             <ReactBootStrap.Form.Label className="text">Họ tên người dùng</ReactBootStrap.Form.Label>
                                             <ReactBootStrap.Form.Control type="text" name="full_name" onChange={this.onChange} placeholder="Nguyễn Văn A" />
@@ -124,17 +128,22 @@ class AddStaff extends Component {
                                             <ReactBootStrap.Form.Label className="text">Ngày sinh</ReactBootStrap.Form.Label>
                                             <ReactBootStrap.Form.Control type="date" name="birthday" onChange={this.onChange} placeholder="MM-DD-YYYY" />
                                         </ReactBootStrap.Form.Group>
-                                        <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                        <div className="row">
+                                        <ReactBootStrap.Form.Group id="formGridCheckbox" className="col-6">
                                             <ReactBootStrap.Form.Label className="text">Quyền quản trị</ReactBootStrap.Form.Label>
                                             <ReactBootStrap.InputGroup.Checkbox name="is_active" id="adminCheckBox" onClick={this.adminCheckBox} />
                                         </ReactBootStrap.Form.Group>
-                                        <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                        <ReactBootStrap.Form.Group id="formGridCheckbox" className="col-6">
                                             <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
                                             <ReactBootStrap.InputGroup.Checkbox name="is_active" id="statusCheckBox" onClick={this.statusCheckBox} />
                                         </ReactBootStrap.Form.Group>
-                                        <ReactBootStrap.Button variant="info" type="submit" onClick={this.addStaff}>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <ReactBootStrap.Button variant="info" className="" type="submit" onClick={this.addStaff}>
                                             Thêm
                                         </ReactBootStrap.Button>
+                                        
                                     </ReactBootStrap.Form>
                                 </div>
                             </div>

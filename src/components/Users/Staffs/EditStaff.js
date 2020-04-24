@@ -164,7 +164,9 @@ class EditStaff extends Component {
                                             <p className="card-category"></p>
                                         </div>
                                         <div className="card-body">
-                                            <ReactBootStrap.Form onSubmit={this.onSave}>
+                                            <ReactBootStrap.Form>
+                                                <div className="row">
+                                                    <div className="col-6">
                                                 <ReactBootStrap.Form.Group controlId="">
                                                     <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.Form.Control type="text" value={username} disabled variant="danger" name="username" onChange={this.onChange} />
@@ -173,10 +175,13 @@ class EditStaff extends Component {
                                                     <ReactBootStrap.Form.Label className="text">Họ tên người dùng</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.Form.Control type="text" value={full_name} name="full_name" onChange={this.onChange} placeholder="Nguyễn Văn A" />
                                                 </ReactBootStrap.Form.Group>
+                                                </div>
+                                                <div className="col-6">
                                                 <ReactBootStrap.Form.Group controlId="">
                                                     <ReactBootStrap.Form.Label className="text">Ngày sinh</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.Form.Control type="date" value={birthday} name="birthday" onChange={this.onChange} placeholder="MM-DD-YYYY" />
                                                 </ReactBootStrap.Form.Group>
+                                                <div className="row">
                                                 <ReactBootStrap.Form.Group id="formGridCheckbox" className="col-6 left">
                                                     <ReactBootStrap.Form.Label className="text">Quyền quản trị</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.InputGroup.Checkbox name="is_active" id="adminCheckBox" onClick={this.adminCheckBox} />
@@ -185,7 +190,12 @@ class EditStaff extends Component {
                                                     <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
                                                     <ReactBootStrap.InputGroup.Checkbox name="is_active" id="statusCheckBox" onClick={this.statusCheckBox} />
                                                 </ReactBootStrap.Form.Group>
-                                                <ReactBootStrap.Button variant="info" type="submit" onClick={this.editStaff}>Edit</ReactBootStrap.Button>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                <ReactBootStrap.Button variant="info" type="submit" className="" onClick={this.editStaff}>Edit</ReactBootStrap.Button>
+                                                
+                                                
                                             </ReactBootStrap.Form>
                                         </div>
                                     </div>
@@ -195,7 +205,7 @@ class EditStaff extends Component {
                             
                                 <div className="col-md-12 mt-50">
                                     <div className="card">
-                                        <div className="card-header card-header-primary">
+                                        <div className="card-header card-header-info">
                                             <h4 className="card-title">Đổi mật khẩu</h4>
                                             <p className="card-category"></p>
                                         </div>
