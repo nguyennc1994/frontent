@@ -11,14 +11,15 @@ class EditStaff extends Component {
     constructor(props) {
         super(props)
         this.state = {
-        
+
             username: "",
             password: "",
-
+            re_password: "",
             full_name: "",
             birthday: "",
-            is_check: false,
-            changePassword:"disable"
+            is_active: false,
+            is_admin: false,
+            is_changePassword: false
         }
         this.addCustomer = this.editStaff.bind(this);
         this.changePassword = this.changePassword.bind(this);
@@ -34,24 +35,56 @@ class EditStaff extends Component {
         })
         console.log(this.state)
     }
+    getCheckBox = () => {
+        var adminCheckBox = document.getElementById("adminCheckBox");
+        var statucCheckBox = document.getElementById("statusCheckBox");
+        console.log("AAA")
+        if (this.state.is_admin == true) {
+            adminCheckBox.checked = true;
+        } else {
+            adminCheckBox.checked = false;
+        }
+        if (this.state.is_active == true) {
+            statucCheckBox.checked = true;
+        } else {
+            statucCheckBox.checked = false;
+        }
+    }
+    adminCheckBox = () => {
+        var checkBox = document.getElementById("adminCheckBox");
+        this.setState({
+            is_admin: checkBox.checked
 
-    componentDidMount(){
-        const staffId = this.props.match.params.id;   
-        Axios.get(`http://149.28.137.86:8000/api/accounts/staff/`+staffId+"/", {
-            headers: { 'Authorization': "Token "+localStorage.userData }
+        })
+        console.log(checkBox.checked)
+    }
+    statusCheckBox = () => {
+        var checkBox = document.getElementById("statusCheckBox");
+        this.setState({
+            is_active: checkBox.checked
+
+        })
+        console.log(checkBox.checked)
+    }
+    componentDidMount() {
+        const staffId = this.props.match.params.id;
+        Axios.get(`http://149.28.137.86:8000/api/v1/accounts/staff/` + staffId + "/", {
+            headers: { 'Authorization': "Token " + localStorage.userData }
         })
             .then(json => {
-                var data=json.data;
+                var data = json.data;
                 console.log(data)
                 this.setState({
                     username: data.username,
                     password: data.password,
-            
+
                     full_name: data.full_name,
                     birthday: data.birthday,
-                    is_check: data.is_active,
+                    is_active: data.is_active,
+                    is_admin: data.is_admin
                 })
                 console.log(this.state)
+                this.getCheckBox()
             })
             .catch(e => {
                 console.error(e)
@@ -64,33 +97,35 @@ class EditStaff extends Component {
     }
     changePassword = (e) => {
         e.preventDefault();
-        return(
-                        <div>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Mật khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="password" onChange={this.onChange} placeholder="Mật khẩu" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Nhập lại mật khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="password2" onChange={this.onChange} placeholder="Mật khẩu" />
-                            </ReactBootStrap.Form.Group>
-                        </div>
-        )
-    }
+        const staffId = this.props.match.params.id;
+            PutData(`http://149.28.137.86:8000/api/v1/accounts/staff/`+staffId+`/password_change`,{
+                id : staffId,
+                password: this.state.password,
+                re_password: this.state.re_password,
+               
+            })
+                .then(result => {
+                    console.log(result.id)
+                    if (result.id == staffId) alert("Sửa tài khoản Mật khẩu Customer thành công ")
+                    else alert("Sửa tài khoản Mật khẩu Customer không thành công")
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        }
     editStaff = (e) => {
         e.preventDefault();
-        const staffId = this.props.match.params.id;   
-        PutData(`http://149.28.137.86:8000/api/accounts/staff/`+staffId+'/',
+        const staffId = this.props.match.params.id;
+        PutData(`http://149.28.137.86:8000/api/v1/accounts/staff/` + staffId + '/',
             {
                 username: this.state.username,
-                // "password": this.state.password,
-                // "password2": this.state.password2,
                 full_name: this.state.full_name,
                 birthday: this.state.birthday,
-                is_admin: this.state.is_check,
+                is_admin: this.state.is_admin,
+                is_active: this.state.is_active,
             }).then((result) => {
-                if(result.username===this.state.username) alert("Sửa tài khoản Staff thành công ")
-                    else alert("Sửa tài khoản Staff không thành công")
+                if (result.username === this.state.username) alert("Sửa tài khoản Staff thành công ")
+                else alert("Sửa tài khoản Staff không thành công")
 
             });
 
@@ -98,7 +133,7 @@ class EditStaff extends Component {
     }
 
     render() {
-        var { username, full_name, birthday, is_check , } = this.state
+        var { username, full_name, birthday } = this.state
         return (
             <div className="wrapper ">
                 <Sidebar></Sidebar>
@@ -106,39 +141,45 @@ class EditStaff extends Component {
                 <div className="main-panel">
                     <Header></Header>
                     <div className="content">
-                        <ReactBootStrap.Form onSubmit={this.onSave}>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" value={username} disabled variant="danger" name="username" onChange={this.onChange}/>
-                            </ReactBootStrap.Form.Group>
+                        <ReactBootStrap.Row>
+                            <ReactBootStrap.Col md={6}>
+                                <ReactBootStrap.Form onSubmit={this.onSave}>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Tên đăng nhập</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="text" value={username} disabled variant="danger" name="username" onChange={this.onChange} />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Họ tên người dùng</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="text" value={full_name} name="full_name" onChange={this.onChange} placeholder="Nguyễn Văn A" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group controlId="">
+                                        <ReactBootStrap.Form.Label className="text">Ngày sinh</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.Form.Control type="date" value={birthday} name="birthday" onChange={this.onChange} placeholder="MM-DD-YYYY" />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                        <ReactBootStrap.Form.Label className="text">Quyền quản trị</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.InputGroup.Checkbox name="is_active" id="adminCheckBox" onClick={this.adminCheckBox} />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                        <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
+                                        <ReactBootStrap.InputGroup.Checkbox name="is_active" id="statusCheckBox" onClick={this.statusCheckBox} />
+                                    </ReactBootStrap.Form.Group>
+                                    <ReactBootStrap.Button variant="primary" type="submit" onClick={this.editStaff}>Edit</ReactBootStrap.Button>
+                                </ReactBootStrap.Form>
+                            </ReactBootStrap.Col>
+                            <ReactBootStrap.Col md={6}>
+                                <ReactBootStrap.Form.Group controlId="">
+                                    <ReactBootStrap.Form.Label className="text">Mật khẩu</ReactBootStrap.Form.Label>
+                                    <ReactBootStrap.Form.Control type="password" name="password" disabled={this.state.disabled ? 'disabled' : null} onChange={this.onChange} placeholder="Mật khẩu" />
+                                </ReactBootStrap.Form.Group>
+                                <ReactBootStrap.Form.Group controlId="">
+                                    <ReactBootStrap.Form.Label className="text">Nhập lại mật khẩu</ReactBootStrap.Form.Label>
+                                    <ReactBootStrap.Form.Control type="password" name="re_password" onChange={this.onChange} placeholder="Mật khẩu" />
+                                </ReactBootStrap.Form.Group>
 
-
-                        
-                            {/* <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Mật khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="password" disabled={this.state.disabled ? 'disabled' : null} onChange={this.onChange} placeholder="Mật khẩu" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Nhập lại mật khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="password2" onChange={this.onChange} placeholder="Mật khẩu" />
-                            </ReactBootStrap.Form.Group>
-                        
-                            <ReactBootStrap.Button variant="primary" type="submit" onClick={this.changePassword}>Đổi mật khẩu</ReactBootStrap.Button> */}
-                            
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Họ tên người dùng</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="text" value={full_name} name="full_name" onChange={this.onChange} placeholder="Nguyễn Văn A" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="">
-                                <ReactBootStrap.Form.Label className="text">Ngày sinh</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="date" value={birthday} name="birthday" onChange={this.onChange} placeholder="MM-DD-YYYY" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group id="formGridCheckbox">
-                                <ReactBootStrap.Form.Check type="checkbox" value={is_check} label="Check me out" />
-                            </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Button variant="primary" type="submit" onClick={this.editStaff}>Edit</ReactBootStrap.Button>
-                        </ReactBootStrap.Form>
-
+                                <ReactBootStrap.Button variant="primary" type="submit" onClick={this.changePassword}>Đổi mật khẩu</ReactBootStrap.Button>
+                            </ReactBootStrap.Col>
+                        </ReactBootStrap.Row>
                     </div>
                     <Footer></Footer>
 

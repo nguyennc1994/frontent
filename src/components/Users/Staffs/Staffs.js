@@ -15,14 +15,14 @@ class Staffs extends Component {
         this.state = {
             data: [],
             keyword: "",
-            sorted : true
+            sorted: true
         }
         this.getData = this.getData.bind(this)
         // this.btnClick = this.btnClick.bind(this)
         this.compareBy = this.compareBy.bind(this);
         this.sortBy = this.sortBy.bind(this);
     }
-    
+
     getData() {
         let token = "Token " + localStorage.userData;
         this.setState({
@@ -30,10 +30,11 @@ class Staffs extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/accounts/staff/`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/accounts/staff/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
+                console.log(json.data)
                 this.setState({
                     data: json.data,
                     loading: false,
@@ -46,39 +47,33 @@ class Staffs extends Component {
                     loading: false,
                 })
             })
-            console.log(this.state.data);
+        console.log(this.state.data);
     }
     compareBy(key) {
-        if(this.state.sorted===true){
-        return function (a, b) {
-          if (a[key] < b[key]) return -1;
-          if (a[key] > b[key]) return 1;
-          return 0;
+        if (this.state.sorted === true) {
+            return function (a, b) {
+                if (a[key] < b[key]) return -1;
+                if (a[key] > b[key]) return 1;
+                return 0;
             }
-            // this.setState({
-            //     sorted : false
-            // })
-            // console.log(this.state.sorted)
         }
-        else{
+        else {
             return function (a, b) {
                 if (a[key] > b[key]) return -1;
                 if (a[key] < b[key]) return 1;
                 return 0;
-              }
-            //   this.setState({
-            //     sorted : true
-            // })
+            }
+
         }
-        }
-      
-    
-     
-      sortBy(key) {
+    }
+
+
+
+    sortBy(key) {
         let arrayCopy = this.state.data;
         arrayCopy.sort(this.compareBy(key));
-        this.setState({data: arrayCopy});
-      }
+        this.setState({ data: arrayCopy });
+    }
 
     getIndex = (data) => {
         var index = data.length;
@@ -92,15 +87,6 @@ class Staffs extends Component {
         if (status) return (<span className="btn btn-info">Admin</span>)
         else return (<span className="btn btn-danger">Only staff</span>)
     }
-    // btnClick(event) {
-    //     const userId = event.target.value
-    //     console.log(userId)
-    //     this.setState({
-    //         userId
-    //     })
-
-    //     this.getData()
-    // }
 
     componentDidMount() {
         this.getData()
@@ -109,35 +95,40 @@ class Staffs extends Component {
     onSearch = (keyword) => {
         console.log(keyword)
         this.setState({
-            keyword :keyword
+            keyword: keyword
         })
     }
     render() {
-  
-        var {data, keyword} = this.state
-       
-        if(keyword){
-            data = data.filter((data)=>{
-                return (data.username.toLowerCase().indexOf(keyword)  !== -1 || data.full_name.toLowerCase().indexOf(keyword)  !== -1);
+
+        var { data, keyword } = this.state
+
+        if (keyword) {
+            data = data.filter((data) => {
+                return (data.username.toLowerCase().indexOf(keyword) !== -1 || data.full_name.toLowerCase().indexOf(keyword) !== -1);
             })
         }
- 
+
         const theData = data.map((d) => {
+            // for(var i = 1; i<=data.length; i++){
+                
             return (
 
                 <tr key={d.username}>
+                    {/* <td>{i}</td> */}
                     <td>{d.id}</td>
                     <td>{d.username}</td>
                     <td>{d.full_name}</td>
                     <td>{d.birthday}</td>
-                    <td>{this.showStatus(d.is_active)}{this.showIsAdmin(d.is_admin)}</td>
+                    <td>{this.showStatus(d.is_active)}</td>
+                    <td>{this.showIsAdmin(d.is_admin)}</td>
                     <td>{d.date_joined.slice(0, 19)}</td>
                     <td>{d.last_login.slice(0, 19)}</td>
                     <td> <NavLink className="btn btn-success" to={"/users/staff/" + d.id + "/edit"}>Edit</NavLink>
-                        <button className="btn btn-danger" onClick={this.deleteCustomer}>Delete</button>
+
                     </td>
                 </tr>
             )
+            // }
         })
 
         console.log(theData)
@@ -149,15 +140,17 @@ class Staffs extends Component {
                     <Header></Header>
                     <div className="content">
                         <NavLink to="/users/staff/add" className="btn btn-info">Thêm</NavLink>
-                        <Search onSearch={this.onSearch}/>
+                        <Search onSearch={this.onSearch} />
                         <ReactBootStrap.Table striped bordered hover>
                             <thead>
                                 <tr>
+                                    {/* <th onClick={() => this.sortBy('id')}>STT</th> */}
                                     <th onClick={() => this.sortBy('id')}>ID</th>
                                     <th onClick={() => this.sortBy('username')}>Tên đăng nhập</th>
                                     <th onClick={() => this.sortBy('full_name')}>Họ và Tên</th>
                                     <th onClick={() => this.sortBy('birthday')}>Ngày sinh</th>
-                                    <th onClick={() => this.sortBy('status')}>Trạng thái</th>
+                                    <th onClick={() => this.sortBy('is_active')}>Trạng thái</th>
+                                    <th onClick={() => this.sortBy('is_admin')}>Quyền quản trị</th>
                                     <th onClick={() => this.sortBy('date_joined')}>Ngày thêm</th>
                                     <th onClick={() => this.sortBy('last_login')}>Lần cuối đăng nhập</th>
                                     <th>Hành động</th>
@@ -167,7 +160,7 @@ class Staffs extends Component {
                                 {theData}
                             </tbody>
                         </ReactBootStrap.Table>
-                 
+
                     </div>
                     <Footer></Footer>
 

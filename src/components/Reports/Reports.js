@@ -5,6 +5,8 @@ import Sidebar from '../Sidebar/Sidebar';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
+import Pagination from "react-js-pagination";
+// require("bootstrap/less/bootstrap.less");
 // import './Customers.css';
 // import { NavLink } from 'react-router-dom'
 class Reports extends Component {
@@ -13,13 +15,17 @@ class Reports extends Component {
         this.state = {
             data: [],
             loading: false,
-            keyword:""
+            keyword:"",
+            activePage: 1
         }
         this.getData = this.getData.bind(this)
         this.compareBy = this.compareBy.bind(this);
         this.sortBy = this.sortBy.bind(this);
     }
-
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({activePage: pageNumber});
+      }
     getData() {
         let token = "Token " + localStorage.userData;
         console.log(token);
@@ -28,7 +34,7 @@ class Reports extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/reports/`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/meters/reports/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
@@ -93,6 +99,7 @@ class Reports extends Component {
         //         return (data.id.toLowerCase().indexOf(keyword)  !== -1 || data.meter.toLowerCase().indexOf(keyword)  !== -1 || data.date_added.toLowerCase().indexOf(keyword)  !== -1);
         //     })
         // }
+        var totalItemsCount=data.length;
         const theData = data.map((d) => {
             return (
 
@@ -135,6 +142,15 @@ class Reports extends Component {
                                 {theData}
                             </tbody>
                         </ReactBootStrap.Table>
+                        <div>
+        <Pagination
+          activePage={this.state.activePage}
+          itemsCountPerPage={10}
+          totalItemsCount={totalItemsCount}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange.bind(this)}
+        />
+      </div>
                     </div>
                     <Footer></Footer>
 

@@ -12,13 +12,11 @@ class EditMeter extends Component {
         super(props)
         this.state = {
             data_customer:[],
-            customer:"",
             pid_number : "",
             is_check : true,
         }
         this.editMeter = this.editMeter.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onChangeCustomer = this.onChangeCustomer.bind(this)
+        this.onChange = this.onChange.bind(this);   
     }
 
     onChange = (e) => {
@@ -38,39 +36,19 @@ class EditMeter extends Component {
         console.log(this.state.customer)
     }
 
-    getData() {
-        let token = "Token " + localStorage.userData;
-        this.setState({
-
-            data_customer: [],
-            loading: true
-        })
-        Axios.get(`http://149.28.137.86:8000/api/accounts/customer/`, {
-            headers: { 'Authorization': token }
-        })
-            .then(json => {
-                this.setState({
-                    data_customer: json.data,
-                    loading: false,
-                })
-            })
-            .catch(e => {
-                console.error(e)
-                this.setState({
-                    data_customer: [],
-                    loading: false,
-                })
-            })
-    } 
-
-    // checkedCheckbox = (e) =>{
-    //     var status= e.target.value
-    //     if(status==="on") console.log("AAAA")
-    // }
+    getCheckBox = () => {
+        var checkBox = document.getElementById("myCheck");
+        console.log("AAA")
+        if (this.state.is_check == true){
+            checkBox.checked=true;
+          } else {
+              checkBox.checked=false;
+          }
+    }
+    
     componentDidMount(){
         const meterId = this.props.match.params.id;   
-        console.log(meterId)
-        Axios.get(`http://149.28.137.86:8000/api/meters/`+meterId+`/`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/meters/meters/`+meterId+`/`, {
             headers: { 'Authorization': "Token "+localStorage.userData }
         })
             .then(json => {
@@ -78,10 +56,10 @@ class EditMeter extends Component {
                 console.log(data)
                 this.setState({
                     pid_number: data.pid_number,
-                    customer: data.customer,
                     is_check: data.is_active,            
                 })
                 console.log(this.state)
+                this.getCheckBox()
             })
             .catch(e => {
                 console.error(e)
@@ -89,21 +67,28 @@ class EditMeter extends Component {
                     data: [],
                     loading: false,
                 })
-            })
-            this.getData()
-
+            })    
     }
+    
+    checkCheckBox = () => {
+        var checkBox = document.getElementById("myCheck");
+        this.setState({
+            is_check : checkBox.checked
+            
+        })
+        console.log(checkBox.checked)
+      }
 
     editMeter=(e) => {
         e.preventDefault();  
         const meterId = this.props.match.params.id;   
         if(this.state.pid_number){
             
-                PutData(`http://149.28.137.86:8000/api/meters/`+meterId+`/`,
+                PutData(`http://149.28.137.86:8000/api/v1/meters/meters/`+meterId+`/`,
                     {
                         pid_number: this.state.pid_number,
                         customer: this.state.customer,
-                        is_active: true,
+                        is_active: this.state.is_check,
                 })
                 .then(json => {
                     console.log(json)               
@@ -117,19 +102,8 @@ class EditMeter extends Component {
             }
 
     render() {  
-        var { data_customer, customer, pid_number } = this.state
-        // if(keyword){
-        //     data = data.filter((data)=>{
-        //         return (data.pid_number.toLowerCase().indexOf(keyword)  !== -1 );
-        //     })
-        // }
+        var { data_customer, pid_number } = this.state
 
-        const theData = data_customer.map((d) => {
-            return (
-                <option value={d.id} key={d.id}>    {d.id} --- {d.username} --- {d.full_name}   </option>
-            )
-
-        })
             return(
                 <div className="wrapper ">
   			<Sidebar></Sidebar> 
@@ -142,16 +116,10 @@ class EditMeter extends Component {
                                 <ReactBootStrap.Form.Label className="text">Mã công tơ</ReactBootStrap.Form.Label>
                                 <ReactBootStrap.Form.Control type="text" name="pid_number" disabled value={pid_number} onChange={this.onChange} placeholder="Mã công tơ" />
                             </ReactBootStrap.Form.Group>
-                            <ReactBootStrap.Form.Group controlId="exampleForm.ControlSelect1">
-                                <ReactBootStrap.Form.Label>Mã khách hàng</ReactBootStrap.Form.Label>
-                                {/* <ReactBootStrap.Form.Control type="text" name="pid_number" placeholder="tim kiem" /> */}
-                                <ReactBootStrap.Form.Control className="selectpicker" name="customer" as="select" value={customer} onChange={this.onChangeCustomer} data-live-search="true">
-                                    {theData}
-                                </ReactBootStrap.Form.Control>
-                            </ReactBootStrap.Form.Group>
+                         
                             <ReactBootStrap.Form.Group id="formGridCheckbox">
                                 <ReactBootStrap.Form.Label className="text">Trạng thái</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.InputGroup.Checkbox name="is_active" onChange={this.checkedCheckbox} />
+                                <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onChange={this.checkCheckBox} />
 
                             </ReactBootStrap.Form.Group>
 

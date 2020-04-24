@@ -18,7 +18,6 @@ class Customers extends Component {
             
         }
         this.getData = this.getData.bind(this)
-        this.delete = this.deleteCustomer.bind(this)
         this.compareBy = this.compareBy.bind(this);
         this.sortBy = this.sortBy.bind(this);
     }
@@ -31,7 +30,7 @@ class Customers extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/accounts/customer/`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/accounts/customer/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
@@ -50,31 +49,6 @@ class Customers extends Component {
             })
     }
 
-    getMeter = () => {
-        let token = "Token " + localStorage.userData;
-        this.setState({
-
-            data_meter: [],
-            loading: true
-        })
-        Axios.get(`http://149.28.137.86:8000/api/meters/`, {
-            headers: { 'Authorization': token }
-        })
-            .then(json => {
-                this.setState({
-                    data_meter: json.data,
-                    loading: false
-                })
-            })
-            .catch(e => {
-                console.error(e)
-                this.setState({
-                    data_meter: [],
-                    loading: false
-                })
-            })
-        console.log(this.state.data)
-    }
     compareBy(key) {
         if(this.state.sorted){
         return function (a, b) {
@@ -113,32 +87,11 @@ class Customers extends Component {
         if (status) return (<span className="btn btn-info">Active</span>)
         else return (<span className="btn btn-danger">Deactive</span>)
     }
-    deleteCustomer = (id) => {
-        if (confirm("Bạn chắc chắn muốn xóa không?")) {
-
-            let token = "Token " + localStorage.userData;
-            Axios.delete(`http://149.28.137.86:8000/api/accounts/customer/` + id + `/`, {
-                headers: { 'Authorization': token }
-            })
-                .then(json => {
-                    console.log(json)
-                    // if (json.status === 200){
-                    // alert("Xóa thành công")
-                    //     this.setState({
-                    //         data: json.data,
-                    //     })
-                    // }
-                    // else alert("Xóa không thành công")
-
-                })
-            console.log(this.state.data)
-        }
-    }
 
     componentDidMount() {
        
         this.getData()
-        this.getMeter()
+        // this.getMeter()
     }
     onSearch = (keyword) => {
         console.log(keyword)
@@ -163,12 +116,11 @@ class Customers extends Component {
                     <td>{d.customerprofile.customer_type}</td>
                     <td>{d.full_name}</td>
                     <td>{d.birthday}</td>
-                    <td>{d.meter}</td>
+                    <td>{d.customerprofile.meter}</td>
                     <td>{this.showStatus(d.is_active)}</td>
                     <td>{d.date_joined.slice(0, 10)}</td>
                     <td>{d.last_login.slice(0, 10)}</td>
                     <td> <NavLink className="btn btn-success" to={"/users/customer/" + d.id + "/edit"}>Edit</NavLink>
-                        <ReactBootStrap.Button className="btn" variant="danger" onClick={()=> this.deleteCustomer(d.id)}>Delete</ReactBootStrap.Button>
                     </td>
                 </tr>
             )

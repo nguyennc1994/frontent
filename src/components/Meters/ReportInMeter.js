@@ -29,7 +29,7 @@ class ReportInMeter extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/meter/`+meterId+`/reports`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/meters/reports/meter/`+meterId+`/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {

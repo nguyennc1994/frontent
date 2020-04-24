@@ -15,8 +15,7 @@ class Meters extends Component {
             data: [],
             keyword: ""
         }
-        this.getData = this.getData.bind(this)
-        this.delete = this.deleteCustomer.bind(this)
+        this.getData = this.getData.bind(this)  
         this.showStatus = this.showStatus.bind(this)
         this.sortBy = this.sortBy.bind(this);
     }
@@ -28,10 +27,11 @@ class Meters extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/meters/`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/meters/meters/`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
+                console.log(json.data)
                 this.setState({
                     data: json.data,
                     loading: false
@@ -52,24 +52,6 @@ class Meters extends Component {
         else return (<span className="btn btn-danger">Deactive</span>)
     }
 
-    deleteCustomer=(id)=> {
-        if (confirm("Bạn chắc chắn muốn xóa không?")) {
-
-            let token = "Token " + localStorage.userData;
-            Axios.delete(`http://149.28.137.86:8000/api/meters/` + id + `/`, {
-                headers: { 'Authorization': token }
-            })
-                .then(json => {
-
-                    if (json.status === 200)
-                        this.setState({
-                            data: json.data,
-                        })
-
-                })
-            console.log(this.state.data)
-        }
-    }
     compareBy(key) {
         // if(this.state.sorted===true){
         return function (a, b) {
@@ -128,12 +110,11 @@ class Meters extends Component {
 
                 <tr key={d.id}>
                     <td>{d.id}</td>
-                    <td><NavLink to={"/meter/" + d.id + "/report"}> {d.pid_number}</NavLink></td>
+                    <td><NavLink to={"/meter/" + d.pid_number + "/report"}> {d.pid_number}</NavLink></td>
                     <td>{d.date_added.slice(0, 10)}</td>
                     <td>{this.showStatus(d.is_active)}</td>
-                    <td>{d.customer}</td>
+                    {/* <td>{d.customer}</td> */}
                     <td> <NavLink className="btn btn-success" to={"/meter/" + d.id + "/edit"}>Edit</NavLink>
-                        <ReactBootStrap.Button className="btn" variant="danger" onClick={() => this.deleteCustomer(d.id)}>Delete</ReactBootStrap.Button>
                     </td>
                 </tr>
             )
@@ -155,7 +136,7 @@ class Meters extends Component {
                                     <th onClick={() => this.sortBy('pid_number')}>Mã công tơ</th>
                                     <th>Ngày thêm</th>
                                     <th>Trạng thái</th>
-                                    <th onClick={() => this.sortBy('customer')}>Khách hàng</th>
+                                    {/* <th onClick={() => this.sortBy('customer')}>Khách hàng</th> */}
                                     <th>Hành động</th>
                                 </tr>
                             </thead>

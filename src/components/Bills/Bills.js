@@ -16,7 +16,6 @@ class Bills extends Component {
             data : [],
         }
         this.getData = this.getData.bind(this)
-        this.delete = this.deleteCustomer.bind(this)
         this.showStatus = this.showStatus.bind(this)
     }
 
@@ -27,7 +26,7 @@ class Bills extends Component {
 
             data : [],
         })
-        Axios.get(`http://149.28.137.86:8000/api/payments/bills/`,{
+        Axios.get(`http://149.28.137.86:8000/api/v1/payments/bills/`,{
             headers : {'Authorization' : token}
         })
         .then(json => {
@@ -47,27 +46,10 @@ class Bills extends Component {
     }
     
     showStatus = (status) => {
-        if(status) return(<span className="btn btn-info">Active</span>)
-        else return (<span className="btn btn-danger">Deactive</span>) 
+        if(status) return(<span className="btn btn-info">Đã thanh toán</span>)
+        else return (<span className="btn btn-danger">Chưa thanh toán</span>) 
       }
 
-    deleteCustomer(id){
-        if(confirm("Bạn chắc chắn muốn xóa không?")) {
-
-        let token = "Token "+localStorage.userData;
-        Axios.delete(`http://149.28.137.86:8000//api/payments/bills/`+id+`/`,{
-            headers : {'Authorization' : token}
-        })
-        .then(json => {
-            
-            if(json.status===200) 
-            this.setState({
-                    data : json.data,
-                    })  
-
-            })
-        console.log(this.state.data)
-    }}
     
     // findIndex = (data, id) => {
     //         var result = -1;

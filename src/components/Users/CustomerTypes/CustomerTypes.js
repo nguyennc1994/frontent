@@ -15,7 +15,6 @@ class CustomerTypes extends Component {
             loading: false,
         }
         this.getData = this.getData.bind(this)
-        this.delete = this.deleteCustomerType.bind(this)
         this.showPayType = this.showPayType.bind(this)
         this.showCustomerType = this.showCustomerType.bind(this)
     }
@@ -28,7 +27,7 @@ class CustomerTypes extends Component {
             data: [],
             loading: true
         })
-        Axios.get(`http://149.28.137.86:8000/api/customer/customertype/`, {
+        Axios.get(`http://149.28.137.86:8000/api/v1/customer/customertype`, {
             headers: { 'Authorization': token }
         })
             .then(json => {
@@ -56,18 +55,6 @@ class CustomerTypes extends Component {
         else if (pay_type===2) return (<span>Trả sau</span>)
         else return (<span>Chưa chọn kiểu</span>)
     }
-    deleteCustomerType() {
-        // const { userId } = this.state
-        console.log(localStorage.userData);
-        let token = "Token " + localStorage.userData;
-        Axios.get(`http://149.28.137.86:8000/api/accounts/customer/`, {
-            headers: { 'Authorization': token }
-        })
-            .then(json => {
-                console.log(json.data)
-
-            })
-    }
 
     componentDidMount() {
         this.getData()
@@ -86,7 +73,6 @@ class CustomerTypes extends Component {
                     <td>{this.showPayType(d.pay_type)}</td>
                     <td>Ngày {d.deadline_payment} hàng tháng </td>
                     <td> <NavLink className="btn btn-success" to={"/users/customertype/" + d.id + "/edit"}>Edit</NavLink>
-                        <ReactBootStrap.Button className="btn" variant="danger" onClick={this.deleteCustomerType}>Delete</ReactBootStrap.Button>
                     </td>
                 </tr>
             )

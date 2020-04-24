@@ -12,10 +12,12 @@ class AddStaff extends Component {
         this.state = {
             "username": "",
             "password": "",
-            "password2": "",
+            "re_password": "",
             "full_name": "",
             "birthday": "",
-            is_check: false,
+            is_admin: false,
+            is_active:false
+
 
         }
         this.addCustomer = this.addStaff.bind(this);
@@ -36,14 +38,15 @@ class AddStaff extends Component {
         e.preventDefault();
         console.log(this.state)
 
-        PostData('http://149.28.137.86:8000/api/accounts/auth/staff/create/',
+        PostData('http://149.28.137.86:8000/api/v1/accounts/staff/create',
             {
                 "username": this.state.username,
                 "password": this.state.password,
-                "password2": this.state.password2,
+                "re_password": this.state.re_password,
                 "full_name": this.state.full_name,
                 "birthday": this.state.birthday,
-                is_admin: this.state.is_check,
+                is_admin: this.state.is_admin,
+                is_active : this.state.is_active
             }).then((result) => {
                       if(result.username===this.state.username) alert("Tạo tài khoản Staff thành công ")
                     else alert("Tạo tài khoản Staff không thành công")
@@ -52,6 +55,23 @@ class AddStaff extends Component {
 
 
     }
+    adminCheckBox = () => {
+        var checkBox = document.getElementById("adminCheckBox");
+        this.setState({
+            is_admin: checkBox.checked
+
+        })
+        console.log(checkBox.checked)
+    }
+    statusCheckBox = () => {
+        var checkBox = document.getElementById("statusCheckBox");
+        this.setState({
+            is_active: checkBox.checked
+
+        })
+        console.log(checkBox.checked)
+    }
+
 
     render() {
         return (
@@ -72,7 +92,7 @@ class AddStaff extends Component {
                             </ReactBootStrap.Form.Group>
                             <ReactBootStrap.Form.Group controlId="">
                                 <ReactBootStrap.Form.Label className="text">Nhập lại mật khẩu</ReactBootStrap.Form.Label>
-                                <ReactBootStrap.Form.Control type="password" name="password2" onChange={this.onChange} placeholder="Mật khẩu" />
+                                <ReactBootStrap.Form.Control type="password" name="re_password" onChange={this.onChange} placeholder="Mật khẩu" />
                             </ReactBootStrap.Form.Group>
                             <ReactBootStrap.Form.Group controlId="">
                                 <ReactBootStrap.Form.Label className="text">Họ tên người dùng</ReactBootStrap.Form.Label>
@@ -83,7 +103,12 @@ class AddStaff extends Component {
                                 <ReactBootStrap.Form.Control type="date" name="birthday" onChange={this.onChange} placeholder="MM-DD-YYYY" />
                             </ReactBootStrap.Form.Group>
                             <ReactBootStrap.Form.Group id="formGridCheckbox">
-                                <ReactBootStrap.Form.Check type="checkbox" label="Check me out" />
+                                <ReactBootStrap.Form.Label className="text">Quyền quản trị</ReactBootStrap.Form.Label>
+                                <ReactBootStrap.InputGroup.Checkbox name="is_active" id="adminCheckBox" onClick={this.adminCheckBox} />
+                            </ReactBootStrap.Form.Group>
+                            <ReactBootStrap.Form.Group id="formGridCheckbox">
+                                <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
+                                <ReactBootStrap.InputGroup.Checkbox name="is_active" id="statusCheckBox" onClick={this.statusCheckBox} />
                             </ReactBootStrap.Form.Group>
                             <ReactBootStrap.Button variant="primary" type="submit" onClick={this.addStaff}>
                                 Thêm
