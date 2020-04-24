@@ -51,7 +51,7 @@ const Routes = () => (
 
             <Route path="/bills" component={Bills} />
 
-            <Route component={NotFound} />
+            <Route component={Home} />
         </Switch>
     </BrowserRouter>
 );
