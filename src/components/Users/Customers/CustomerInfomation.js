@@ -166,7 +166,7 @@ class CustomerInfomation extends Component {
 
                         <div className="col-md-12">
                             <div className="card">
-                                <div className="card-header card-header-primary">
+                                <div className="card-header card-header-info">
                                     <h4 className="card-title">Thông tin khách hàng</h4>
                                     {/* <p className="card-category">Complete your profile</p> */}
                                 </div>

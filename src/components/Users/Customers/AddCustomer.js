@@ -251,7 +251,7 @@ class AddCustomer extends Component {
                                         <ReactBootStrap.Form.Label className="text">Trạng thái hoạt động</ReactBootStrap.Form.Label>
                                         <ReactBootStrap.InputGroup.Checkbox name="is_active" id="myCheck" onClick={this.checkedCheckBox} />
                                     </ReactBootStrap.Form.Group>
-                                    <ReactBootStrap.Button className="right"variant="info" type="submit" onClick={this.addCustomer}>
+                                    <ReactBootStrap.Button className=""variant="info" type="submit" onClick={this.addCustomer}>
                             Thêm
                     </ReactBootStrap.Button>
                             </ReactBootStrap.Form>
