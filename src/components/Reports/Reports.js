@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import * as ReactBootStrap from 'react-bootstrap';
+import { Table, InputGroup, FormControl, Button, Card } from 'react-bootstrap';
 import Axios from 'axios';
 import Sidebar from '../Sidebar/Sidebar';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
-import Pagination from "react-js-pagination";
-import { Redirect } from 'react-router-dom'
-// require("bootstrap/less/bootstrap.less");
-// import './Customers.css';
-// import { NavLink } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStepBackward, faFastBackward, faStepForward, faFastForward } from '@fortawesome/free-solid-svg-icons';
 class Reports extends Component {
     constructor(props) {
         super(props)
@@ -18,16 +16,14 @@ class Reports extends Component {
             data: [],
             loading: false,
             keyword: "",
-            activePage: 1
+            currentPage: 1,
+            objectPerPage: 10,
         }
         this.getData = this.getData.bind(this)
         this.compareBy = this.compareBy.bind(this);
         this.sortBy = this.sortBy.bind(this);
     }
-    handlePageChange(pageNumber) {
-        console.log(`active page is ${pageNumber}`);
-        this.setState({ activePage: pageNumber });
-    }
+
     getData() {
         let token = "Token " + localStorage.userData;
         console.log(token);
@@ -53,6 +49,13 @@ class Reports extends Component {
                     loading: false,
                 })
             })
+    }
+
+    setobjectPerPage = (e) => {
+        console.log(e.target.value)
+        this.setState({
+            objectPerPage: e.target.value
+        })
     }
     compareBy(key) {
         if (this.state.sorted === true) {
@@ -101,23 +104,65 @@ class Reports extends Component {
         }
     }
 
+    changePage = (event) => {
+        this.setState({
+            [event.target.name]: parseInt(event.target.value)
+        })
+    }
+
+    firstPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+    prevPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+    }
+    nextPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.data.length / this.state.objectPerPage)) {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+    }
+    lastPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.data.length / this.state.objectPerPage)) {
+            this.setState({
+                currentPage: Math.ceil(this.state.data.length / this.state.objectPerPage)
+            })
+        }
+    }
     render() {
 
         if (this.state.redirectToReferrer) {
             return (<Redirect to={'/login'} />)
         }
-        var { data, keyword } = this.state
+        var { data, currentPage, objectPerPage, keyword } = this.state
+        const lastIndex = currentPage * objectPerPage;
+        const firstIndex = lastIndex - objectPerPage;
+        const currentObjects = data.slice(firstIndex, lastIndex);
+        const totalPages = Math.ceil(data.length / objectPerPage);
 
-        // if(keyword){
-        //     data = data.filter((data)=>{
-        //         return (data.id.toLowerCase().indexOf(keyword)  !== -1 || data.meter.toLowerCase().indexOf(keyword)  !== -1 || data.date_added.toLowerCase().indexOf(keyword)  !== -1);
-        //     })
-        // }
-        var totalItemsCount = data.length;
-        const theData = data.map((d) => {
+        if (keyword) {
+            console.log(keyword)
+            data = data.filter((data) => {
+                return (data.date_added.toLowerCase().indexOf(keyword) !== -1);
+            })
+            console.log(data)
+        }
+
+
+        const theData = currentObjects.map((d, index) => {
             return (
 
-                <tr key={d.id}>
+                <tr key={index}>
+                    <td>{index + 1}</td>
                     <td>{d.id}</td>
                     <td>{d.meter}</td>
                     <td>{d.date_added.slice(0, 10)}</td>
@@ -129,6 +174,14 @@ class Reports extends Component {
                 </tr>
             )
         })
+
+        const perNum_Css = {
+            width: "45px",
+            border: "1px solid #17A2B8",
+            color: "#17A3B8",
+            textAlign: "center",
+            fontWeight: "bold"
+        }
         return (
             <div className="wrapper ">
                 <Sidebar></Sidebar>
@@ -143,11 +196,20 @@ class Reports extends Component {
                                     <p className="card-category"></p>
                                 </div>
                                 <div className="card-body">
+                                    <div className="col-6">
+                                        <select className="custom-select col-1" onChange={this.setobjectPerPage} >
+                                            <option defaultValue="">5</option>
+                                            <option selected defaultValue={10}>10</option>
+                                            <option defaultValue="">20</option>
+                                            <option defaultValue="">50</option>
+                                        </select>
+                                    </div>
                                     <Search onSearch={this.onSearch} />
 
-                                    <ReactBootStrap.Table striped bordered hover>
+                                    <Table striped bordered hover>
                                         <thead>
                                             <tr>
+                                                <th>STT</th>
                                                 <th>ID report</th>
                                                 <th>Mã công tơ</th>
                                                 <th>Ngày nhập</th>
@@ -162,19 +224,26 @@ class Reports extends Component {
                                         <tbody>
                                             {theData}
                                         </tbody>
-                                    </ReactBootStrap.Table>
+                                    </Table>
+                                    <div style={{ "float": "left" }}>
+                                        Show Pagination {currentPage} of {totalPages}
+                                    </div>
+                                    <div style={{ "float": "right" }} className="row">
+                                        <nav aria-label="Page navigation example">
+                                            <ul style={{ background: "#26c6da", }} className="pagination">
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === 1 ? true : false} onClick={this.firstPage}><FontAwesomeIcon icon={faFastBackward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === 1 ? true : false} onClick={this.prevPage}><FontAwesomeIcon icon={faStepBackward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff", fontWeight: "bold" }} name="currentPage" value={currentPage} onChange={this.changePage}>{currentPage}</button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}><FontAwesomeIcon icon={faStepForward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}><FontAwesomeIcon icon={faFastForward} /></button></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div>
-                            {/* <Pagination
-          activePage={this.state.activePage}
-          itemsCountPerPage={10}
-          totalItemsCount={totalItemsCount}
-          pageRangeDisplayed={5}
-          onChange={this.handlePageChange.bind(this)}
-        /> */}
                         </div>
                     </div>
                     <Footer></Footer>

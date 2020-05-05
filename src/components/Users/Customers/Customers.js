@@ -7,6 +7,9 @@ import Footer from '../../Footer/Footer';
 import './Customers.css';
 import { NavLink, Redirect } from 'react-router-dom'
 import Search from '../../Search/Search';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStepBackward, faFastBackward, faStepForward, faFastForward } from '@fortawesome/free-solid-svg-icons';
+
 class Customers extends Component {
     constructor(props) {
         super(props)
@@ -16,6 +19,8 @@ class Customers extends Component {
             data_meter: [],
             keyword: "",
             sorted: true,
+            currentPage: 1,
+            objectPerPage: 10,
 
         }
         this.getData = this.getData.bind(this)
@@ -119,6 +124,48 @@ class Customers extends Component {
         }
     }
 
+    //Pagination
+    setobjectPerPage = (e) => {
+        console.log(e.target.value)
+        this.setState({
+            objectPerPage: e.target.value
+        })
+    }
+    changePage = (event) => {
+        this.setState({
+            [event.target.name]: parseInt(event.target.value)
+        })
+    }
+
+    firstPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+    prevPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+    }
+    nextPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.data.length / this.state.objectPerPage)) {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+    }
+    lastPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.data.length / this.state.objectPerPage)) {
+            this.setState({
+                currentPage: Math.ceil(this.state.data.length / this.state.objectPerPage)
+            })
+        }
+    }
+    //End Pagination
     render() {
 
         if (this.state.redirectToReferrer) {
@@ -129,14 +176,18 @@ class Customers extends Component {
             return (<Redirect to={'/login'} />)
         }
 
-        var { data, keyword, data_meter } = this.state
+        var { data, currentPage, objectPerPage, keyword } = this.state
+        const lastIndex = currentPage * objectPerPage;
+        const firstIndex = lastIndex - objectPerPage;
+        const currentObjects = data.slice(firstIndex, lastIndex);
+        const totalPages = Math.ceil(data.length / objectPerPage);
         if (keyword) {
             data = data.filter((data) => {
                 return (data.username.toLowerCase().indexOf(keyword) !== -1 || data.full_name.toLowerCase().indexOf(keyword) !== -1);
             })
         }
 
-        const theData = data.map((d) => {
+        const theData = currentObjects.map((d) => {
             return (
                 <tr key={d.username}>
                     <td>{d.id}</td>
@@ -168,6 +219,14 @@ class Customers extends Component {
                                 </div>
                                 <div className="card-body">
                                     <NavLink to="/users/customer/add" className="btn btn-info">Thêm</NavLink>
+                                    <div className="col-6">
+                                        <select className="custom-select col-1" onChange={this.setobjectPerPage} >
+                                            <option defaultValue="">5</option>
+                                            <option selected defaultValue={10}>10</option>
+                                            <option defaultValue="">20</option>
+                                            <option defaultValue="">50</option>
+                                        </select>
+                                    </div>
                                     <Search onSearch={this.onSearch} />
                                     <ReactBootStrap.Table striped bordered hover>
                                         <thead>
@@ -188,6 +247,20 @@ class Customers extends Component {
                                             {theData}
                                         </tbody>
                                     </ReactBootStrap.Table>
+                                    <div style={{ "float": "left" }}>
+                                        Show Pagination {currentPage} of {totalPages}
+                                    </div>
+                                    <div style={{ "float": "right" }} className="row">
+                                        <nav aria-label="Page navigation example">
+                                            <ul style={{ background: "#26c6da", }} className="pagination">
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === 1 ? true : false} onClick={this.firstPage}><FontAwesomeIcon icon={faFastBackward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === 1 ? true : false} onClick={this.prevPage}><FontAwesomeIcon icon={faStepBackward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff", fontWeight: "bold" }} name="currentPage" value={currentPage} onChange={this.changePage}>{currentPage}</button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}><FontAwesomeIcon icon={faStepForward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}><FontAwesomeIcon icon={faFastForward} /></button></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
                         </div>

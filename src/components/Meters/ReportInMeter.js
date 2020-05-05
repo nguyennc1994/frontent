@@ -5,6 +5,8 @@ import Sidebar from '../Sidebar/Sidebar';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStepBackward, faFastBackward, faStepForward, faFastForward } from '@fortawesome/free-solid-svg-icons';
 // import './Customers.css';
 // import { NavLink } from 'react-router-dom'
 class ReportInMeter extends Component {
@@ -13,7 +15,9 @@ class ReportInMeter extends Component {
         this.state = {
             dataReports: [],
             loading: false,
-            keyword: ""
+            keyword: "",
+            currentPage: 1,
+            objectPerPage: 10,
         }
         this.getDataReports = this.getDataReports.bind(this)
         this.compareBy = this.compareBy.bind(this);
@@ -86,15 +90,59 @@ class ReportInMeter extends Component {
         })
     }
 
-    render() {
-        var { dataReports, keyword } = this.state
+    //Pagination
+    setobjectPerPage = (e) => {
+        console.log(e.target.value)
+        this.setState({
+            objectPerPage: e.target.value
+        })
+    }
+    changePage = (event) => {
+        this.setState({
+            [event.target.name]: parseInt(event.target.value)
+        })
+    }
 
+    firstPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+    prevPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+    }
+    nextPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.dataReports.length / this.state.objectPerPage)) {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+    }
+    lastPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.dataReports.length / this.state.objectPerPage)) {
+            this.setState({
+                currentPage: Math.ceil(this.state.dataReports.length / this.state.objectPerPage)
+            })
+        }
+    }
+    render() {
+        var { dataReports, currentPage, objectPerPage, keyword } = this.state
+        const lastIndex = currentPage * objectPerPage;
+        const firstIndex = lastIndex - objectPerPage;
+        const currentObjects = dataReports.slice(firstIndex, lastIndex);
+        const totalPages = Math.ceil(dataReports.length / objectPerPage);
         // if(keyword){
         //     data = data.filter((data)=>{
         //         return (data.id.toLowerCase().indexOf(keyword)  !== -1 || data.meter.toLowerCase().indexOf(keyword)  !== -1 || data.date_added.toLowerCase().indexOf(keyword)  !== -1);
         //     })
         // }
-        const theDataReports = dataReports.map((d) => {
+        const theDataReports = currentObjects.map((d) => {
             return (
 
                 <tr key={d.id}>
@@ -123,6 +171,14 @@ class ReportInMeter extends Component {
                                     <p className="card-category"></p>
                                 </div>
                                 <div className="card-body">
+                                <div className="col-6">
+                                        <select className="custom-select col-1" onChange={this.setobjectPerPage} >
+                                            <option defaultValue="">5</option>
+                                            <option selected defaultValue={10}>10</option>
+                                            <option defaultValue="">20</option>
+                                            <option defaultValue="">50</option>
+                                        </select>
+                                    </div>
                                     <Search onSearch={this.onSearch} />
 
                                     <ReactBootStrap.Table striped bordered hover>
@@ -143,6 +199,20 @@ class ReportInMeter extends Component {
                                             {theDataReports}
                                         </tbody>
                                     </ReactBootStrap.Table>
+                                    <div style={{ "float": "left" }}>
+                                        Show Pagination {currentPage} of {totalPages}
+                                    </div>
+                                    <div style={{ "float": "right" }} className="row">
+                                        <nav aria-label="Page navigation example">
+                                            <ul style={{ background: "#26c6da", }} className="pagination">
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === 1 ? true : false} onClick={this.firstPage}><FontAwesomeIcon icon={faFastBackward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === 1 ? true : false} onClick={this.prevPage}><FontAwesomeIcon icon={faStepBackward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff", fontWeight: "bold" }} name="currentPage" value={currentPage} onChange={this.changePage}>{currentPage}</button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}><FontAwesomeIcon icon={faStepForward} /></button></li>
+                                                <li className="page-item"><button className="page-link" style={{ color: "#ffffff" }} disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}><FontAwesomeIcon icon={faFastForward} /></button></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
                         </div>
