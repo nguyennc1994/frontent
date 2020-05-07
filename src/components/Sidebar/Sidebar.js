@@ -169,7 +169,7 @@ class Sidebar extends Component {
                                 </NavLink>
                                 <ul className="nav nav-treeview">
                                     <li className="nav-item ">
-                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }}className="nav-link" to="/dashboard1">
+                                        <NavLink activeStyle={{ backgroundColor: "#26c6da", color: "#ffffff" }}className="nav-link" to="/dashboards/chart1">
                                             <i className="selected material-icons">insert_chart</i>
                                             <p>Chart 1</p>
                                         </NavLink>

@@ -20,6 +20,7 @@ import Bills from './Bills/Bills';
 import EditStaff from './Users/Staffs/EditStaff';
 import AddCustomerType from './Users/CustomerTypes/AddCustomerType';
 import CustomerInfomation from './Users/Customers/CustomerInfomation';
+import Barchart from './Charts/Barcharts/Barchart';
 
 
 const Routes = () => (
@@ -51,7 +52,11 @@ const Routes = () => (
 
             <Route path="/bills" component={Bills} />
 
+            <Route path="/dashboards/chart1" component={Barchart} />
+
             <Route component={Home} />
+
+           
         </Switch>
     </BrowserRouter>
 );
